@@ -170,7 +170,7 @@ const handler = async (req: Request): Promise<Response> => {
 
     console.log("Referral inserted successfully:", insertedReferral.id);
 
-    // Send confirmation email (non-blocking)
+    // Send confirmation email to referrer (non-blocking)
     try {
       await sendEmail(
         [data.referrerEmail.trim().toLowerCase()],
@@ -209,9 +209,57 @@ const handler = async (req: Request): Promise<Response> => {
           </html>
         `
       );
-      console.log("Confirmation email sent");
+      console.log("Confirmation email sent to referrer");
     } catch (emailError) {
-      console.error("Email sending failed (non-critical):", emailError);
+      console.error("Referrer email sending failed (non-critical):", emailError);
+    }
+
+    // Send notification email to internal team
+    try {
+      await sendEmail(
+        ["sandeep.t@myparcelis.com"],
+        `New Referral Submitted: ${data.referralName}`,
+        `
+          <!DOCTYPE html>
+          <html>
+          <head>
+            <meta charset="utf-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          </head>
+          <body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px;">
+            <div style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); padding: 30px; border-radius: 12px 12px 0 0; text-align: center;">
+              <h1 style="color: white; margin: 0; font-size: 28px;">New Referral Received! 📬</h1>
+            </div>
+            <div style="background: #f9fafb; padding: 30px; border-radius: 0 0 12px 12px; border: 1px solid #e5e7eb; border-top: none;">
+              <p style="font-size: 16px; margin-bottom: 20px;">A new referral has been submitted through the partner program.</p>
+              
+              <div style="background: white; padding: 20px; border-radius: 8px; border: 1px solid #e5e7eb; margin-bottom: 20px;">
+                <h3 style="margin: 0 0 15px 0; color: #10b981;">Referrer Information</h3>
+                <p style="margin: 5px 0;"><strong>Name:</strong> ${data.referrerName}</p>
+                <p style="margin: 5px 0;"><strong>Email:</strong> ${data.referrerEmail}</p>
+                <p style="margin: 5px 0;"><strong>Phone:</strong> ${data.referrerPhone || 'Not provided'}</p>
+              </div>
+              
+              <div style="background: white; padding: 20px; border-radius: 8px; border: 1px solid #e5e7eb; margin-bottom: 20px;">
+                <h3 style="margin: 0 0 15px 0; color: #667eea;">Referral Information</h3>
+                <p style="margin: 5px 0;"><strong>Name:</strong> ${data.referralName}</p>
+                <p style="margin: 5px 0;"><strong>Email:</strong> ${data.referralEmail}</p>
+                <p style="margin: 5px 0;"><strong>Phone:</strong> ${data.referralPhone}</p>
+                ${data.referralLinkedin ? `<p style="margin: 5px 0;"><strong>LinkedIn:</strong> <a href="${data.referralLinkedin}" style="color: #667eea;">${data.referralLinkedin}</a></p>` : ''}
+              </div>
+              
+              <div style="background: #dbeafe; padding: 15px; border-radius: 8px; border-left: 4px solid #3b82f6;">
+                <p style="margin: 0; font-size: 14px;"><strong>Referral ID:</strong> ${insertedReferral.id}</p>
+                <p style="margin: 5px 0 0 0; font-size: 14px;"><strong>Submitted:</strong> ${new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })}</p>
+              </div>
+            </div>
+          </body>
+          </html>
+        `
+      );
+      console.log("Internal notification email sent to sandeep.t@myparcelis.com");
+    } catch (emailError) {
+      console.error("Internal notification email failed (non-critical):", emailError);
     }
 
     return new Response(
