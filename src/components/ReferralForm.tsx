@@ -154,48 +154,49 @@ const ReferralForm = () => {
         <div className="absolute bottom-0 left-1/4 w-80 h-80 bg-accent/10 rounded-full blur-[120px]" />
       </div>
 
-      <div className="container max-w-5xl mx-auto relative z-10">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
+      <div className="container max-w-6xl mx-auto relative z-10">
+        <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-start">
           {/* Left Side - Info */}
-          <div>
+          <div className="lg:sticky lg:top-8">
             <div className="inline-flex items-center gap-2 px-4 py-2 mb-6 text-sm font-semibold text-accent bg-accent/10 rounded-full border border-accent/20">
               <Gift className="w-4 h-4" />
               Earn $50 Per Referral
             </div>
-            <h2 className="text-3xl md:text-5xl font-bold mb-6">
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 text-foreground">
               Know Someone Who Fits?<br />
               <span className="text-gradient">Refer & Earn</span>
             </h2>
-            <p className="text-lg text-muted-foreground mb-8 leading-relaxed">
+            <p className="text-base lg:text-lg text-muted-foreground mb-8 leading-relaxed">
               Refer someone who enrolls stores with at least 1,000 insured orders per month and 
               earn <strong className="text-accent">$50</strong> once they receive their first payout.
             </p>
 
             <div className="space-y-4">
               <div className="flex items-center gap-3 text-muted-foreground">
-                <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-sm font-bold text-primary">1</div>
-                <span>Submit the referral form below</span>
+                <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center text-sm font-bold text-primary">1</div>
+                <span className="text-foreground/80">Submit the referral form</span>
               </div>
               <div className="flex items-center gap-3 text-muted-foreground">
-                <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-sm font-bold text-primary">2</div>
-                <span>We reach out and onboard them</span>
+                <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center text-sm font-bold text-primary">2</div>
+                <span className="text-foreground/80">We reach out and onboard them</span>
               </div>
               <div className="flex items-center gap-3 text-muted-foreground">
-                <div className="w-8 h-8 rounded-full bg-accent/10 flex items-center justify-center text-sm font-bold text-accent">$</div>
-                <span>You get $50 after their first payout</span>
+                <div className="w-8 h-8 rounded-full bg-accent/20 flex items-center justify-center text-sm font-bold text-accent">$</div>
+                <span className="text-foreground/80">You get $50 after their first payout</span>
               </div>
             </div>
           </div>
 
           {/* Right Side - Form */}
-          <div className="glass-card p-8">
-            <form onSubmit={handleSubmit} className="space-y-6">
+          <div className="glass-card p-6 lg:p-8">
+            <h3 className="text-xl font-bold mb-6 text-foreground">Submit a Referral</h3>
+            <form onSubmit={handleSubmit} className="space-y-5">
               {/* Your Information Section */}
               <div>
-                <h3 className="text-lg font-semibold mb-4">Your Information</h3>
+                <h4 className="text-base font-semibold mb-4 text-foreground/90">Your Information</h4>
                 <div className="space-y-4">
                   <div className="space-y-2">
-                    <Label htmlFor="referrerName">Your Full Name *</Label>
+                    <Label htmlFor="referrerName" className="text-foreground/90">Your Full Name *</Label>
                     <Input
                       id="referrerName"
                       name="referrerName"
@@ -203,13 +204,13 @@ const ReferralForm = () => {
                       value={formData.referrerName}
                       onChange={handleChange}
                       required
-                      className={`h-12 bg-secondary/50 border-border ${errors.referrerName ? 'border-destructive' : ''}`}
+                      className={`h-11 bg-secondary/50 border-border text-foreground placeholder:text-muted-foreground ${errors.referrerName ? 'border-destructive' : ''}`}
                     />
                     {errors.referrerName && <p className="text-sm text-destructive">{errors.referrerName}</p>}
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="referrerEmail">Your Email Address *</Label>
+                    <Label htmlFor="referrerEmail" className="text-foreground/90">Your Email Address *</Label>
                     <Input
                       id="referrerEmail"
                       name="referrerEmail"
@@ -218,13 +219,13 @@ const ReferralForm = () => {
                       value={formData.referrerEmail}
                       onChange={handleChange}
                       required
-                      className={`h-12 bg-secondary/50 border-border ${errors.referrerEmail ? 'border-destructive' : ''}`}
+                      className={`h-11 bg-secondary/50 border-border text-foreground placeholder:text-muted-foreground ${errors.referrerEmail ? 'border-destructive' : ''}`}
                     />
                     {errors.referrerEmail && <p className="text-sm text-destructive">{errors.referrerEmail}</p>}
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="referrerPhone">Your Phone Number</Label>
+                    <Label htmlFor="referrerPhone" className="text-foreground/90">Your Phone Number</Label>
                     <Input
                       id="referrerPhone"
                       name="referrerPhone"
@@ -232,7 +233,7 @@ const ReferralForm = () => {
                       placeholder="+91 XXXXX XXXXX"
                       value={formData.referrerPhone}
                       onChange={handleChange}
-                      className={`h-12 bg-secondary/50 border-border ${errors.referrerPhone ? 'border-destructive' : ''}`}
+                      className={`h-11 bg-secondary/50 border-border text-foreground placeholder:text-muted-foreground ${errors.referrerPhone ? 'border-destructive' : ''}`}
                     />
                     {errors.referrerPhone && <p className="text-sm text-destructive">{errors.referrerPhone}</p>}
                   </div>
@@ -241,10 +242,10 @@ const ReferralForm = () => {
 
               {/* Referral Information Section */}
               <div className="pt-4 border-t border-border">
-                <h3 className="text-lg font-semibold mb-4">Referral's Information</h3>
+                <h4 className="text-base font-semibold mb-4 text-foreground/90">Referral's Information</h4>
                 <div className="space-y-4">
                   <div className="space-y-2">
-                    <Label htmlFor="referralName">Referral's Full Name *</Label>
+                    <Label htmlFor="referralName" className="text-foreground/90">Referral's Full Name *</Label>
                     <Input
                       id="referralName"
                       name="referralName"
@@ -252,13 +253,13 @@ const ReferralForm = () => {
                       value={formData.referralName}
                       onChange={handleChange}
                       required
-                      className={`h-12 bg-secondary/50 border-border ${errors.referralName ? 'border-destructive' : ''}`}
+                      className={`h-11 bg-secondary/50 border-border text-foreground placeholder:text-muted-foreground ${errors.referralName ? 'border-destructive' : ''}`}
                     />
                     {errors.referralName && <p className="text-sm text-destructive">{errors.referralName}</p>}
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="referralEmail">Referral's Email Address *</Label>
+                    <Label htmlFor="referralEmail" className="text-foreground/90">Referral's Email Address *</Label>
                     <Input
                       id="referralEmail"
                       name="referralEmail"
@@ -267,13 +268,13 @@ const ReferralForm = () => {
                       value={formData.referralEmail}
                       onChange={handleChange}
                       required
-                      className={`h-12 bg-secondary/50 border-border ${errors.referralEmail ? 'border-destructive' : ''}`}
+                      className={`h-11 bg-secondary/50 border-border text-foreground placeholder:text-muted-foreground ${errors.referralEmail ? 'border-destructive' : ''}`}
                     />
                     {errors.referralEmail && <p className="text-sm text-destructive">{errors.referralEmail}</p>}
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="referralPhone">Referral's Phone Number *</Label>
+                    <Label htmlFor="referralPhone" className="text-foreground/90">Referral's Phone Number *</Label>
                     <Input
                       id="referralPhone"
                       name="referralPhone"
@@ -282,13 +283,13 @@ const ReferralForm = () => {
                       value={formData.referralPhone}
                       onChange={handleChange}
                       required
-                      className={`h-12 bg-secondary/50 border-border ${errors.referralPhone ? 'border-destructive' : ''}`}
+                      className={`h-11 bg-secondary/50 border-border text-foreground placeholder:text-muted-foreground ${errors.referralPhone ? 'border-destructive' : ''}`}
                     />
                     {errors.referralPhone && <p className="text-sm text-destructive">{errors.referralPhone}</p>}
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="referralLinkedin">Referral's LinkedIn Profile</Label>
+                    <Label htmlFor="referralLinkedin" className="text-foreground/90">Referral's LinkedIn Profile</Label>
                     <Input
                       id="referralLinkedin"
                       name="referralLinkedin"
@@ -296,7 +297,7 @@ const ReferralForm = () => {
                       placeholder="https://linkedin.com/in/username"
                       value={formData.referralLinkedin}
                       onChange={handleChange}
-                      className={`h-12 bg-secondary/50 border-border ${errors.referralLinkedin ? 'border-destructive' : ''}`}
+                      className={`h-11 bg-secondary/50 border-border text-foreground placeholder:text-muted-foreground ${errors.referralLinkedin ? 'border-destructive' : ''}`}
                     />
                     {errors.referralLinkedin && <p className="text-sm text-destructive">{errors.referralLinkedin}</p>}
                   </div>
