@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -6,6 +6,10 @@ import { toast } from "sonner";
 import { Gift, Send, CheckCircle } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { z } from "zod";
+import HCaptcha from "@hcaptcha/react-hcaptcha";
+
+// hCaptcha site key - this is the public key (safe for client-side)
+const HCAPTCHA_SITE_KEY = "10000000-ffff-ffff-ffff-000000000001"; // Test key - replace with your actual site key
 
 // Validation schema
 const referralSchema = z.object({
@@ -25,11 +29,9 @@ const referralSchema = z.object({
 
 const ReferralForm = () => {
   const [formData, setFormData] = useState({
-    // Referrer (person submitting)
     referrerName: "",
     referrerEmail: "",
     referrerPhone: "",
-    // Referral (person being referred)
     referralName: "",
     referralEmail: "",
     referralPhone: "",
@@ -38,14 +40,26 @@ const ReferralForm = () => {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [captchaToken, setCaptchaToken] = useState<string | null>(null);
+  const captchaRef = useRef<HCaptcha>(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
-    // Clear error when user starts typing
     if (errors[name]) {
       setErrors({ ...errors, [name]: "" });
     }
+  };
+
+  const handleCaptchaVerify = (token: string) => {
+    setCaptchaToken(token);
+    if (errors.captcha) {
+      setErrors({ ...errors, captcha: "" });
+    }
+  };
+
+  const handleCaptchaExpire = () => {
+    setCaptchaToken(null);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -53,44 +67,47 @@ const ReferralForm = () => {
     setIsLoading(true);
     setErrors({});
 
+    // Check captcha first
+    if (!captchaToken) {
+      setErrors({ captcha: "Please complete the CAPTCHA verification" });
+      setIsLoading(false);
+      toast.error("Please complete the CAPTCHA verification");
+      return;
+    }
+
     try {
       // Validate input with zod
       const validatedData = referralSchema.parse(formData);
 
-      const { error } = await supabase.from('referrals').insert({
-        referrer_name: validatedData.referrerName.trim(),
-        referrer_email: validatedData.referrerEmail.trim().toLowerCase(),
-        referrer_phone: validatedData.referrerPhone?.trim() || null,
-        referral_name: validatedData.referralName.trim(),
-        referral_email: validatedData.referralEmail.trim().toLowerCase(),
-        referral_phone: validatedData.referralPhone.trim(),
-        referral_linkedin: validatedData.referralLinkedin?.trim() || null,
-        referral_type: "partner",
-      });
-
-      if (error) throw error;
-
-      // Send email notification (fire and forget - don't block on email)
-      supabase.functions.invoke('send-referral-notification', {
+      // Submit via edge function with captcha verification
+      const { data, error } = await supabase.functions.invoke('submit-referral', {
         body: {
+          captchaToken,
           referrerName: validatedData.referrerName.trim(),
           referrerEmail: validatedData.referrerEmail.trim().toLowerCase(),
+          referrerPhone: validatedData.referrerPhone?.trim() || null,
           referralName: validatedData.referralName.trim(),
           referralEmail: validatedData.referralEmail.trim().toLowerCase(),
           referralPhone: validatedData.referralPhone.trim(),
           referralLinkedin: validatedData.referralLinkedin?.trim() || null,
         },
-      }).then((result) => {
-        if (result.error) {
-          console.error("Email notification error:", result.error);
-        } else {
-          console.log("Email notification sent successfully");
-        }
       });
+
+      if (error) {
+        throw new Error(error.message || "Submission failed");
+      }
+
+      if (data?.error) {
+        throw new Error(data.error);
+      }
 
       setIsSubmitted(true);
       toast.success("Referral submitted successfully! We'll reach out soon.");
     } catch (error) {
+      // Reset captcha on error
+      captchaRef.current?.resetCaptcha();
+      setCaptchaToken(null);
+
       if (error instanceof z.ZodError) {
         const fieldErrors: Record<string, string> = {};
         error.errors.forEach((err) => {
@@ -100,8 +117,9 @@ const ReferralForm = () => {
         });
         setErrors(fieldErrors);
         toast.error("Please fix the validation errors");
+      } else if (error instanceof Error) {
+        toast.error(error.message || "Failed to submit referral. Please try again.");
       } else {
-        console.error("Referral submission error:", error);
         toast.error("Failed to submit referral. Please try again.");
       }
     } finally {
@@ -283,6 +301,20 @@ const ReferralForm = () => {
                     {errors.referralLinkedin && <p className="text-sm text-destructive">{errors.referralLinkedin}</p>}
                   </div>
                 </div>
+              </div>
+
+              {/* hCaptcha */}
+              <div className="pt-4">
+                <div className="flex justify-center">
+                  <HCaptcha
+                    ref={captchaRef}
+                    sitekey={HCAPTCHA_SITE_KEY}
+                    onVerify={handleCaptchaVerify}
+                    onExpire={handleCaptchaExpire}
+                    theme="dark"
+                  />
+                </div>
+                {errors.captcha && <p className="text-sm text-destructive text-center mt-2">{errors.captcha}</p>}
               </div>
 
               <Button
