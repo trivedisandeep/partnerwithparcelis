@@ -4,13 +4,19 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 import { Gift, Send, CheckCircle } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
 
 const ReferralForm = () => {
   const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    linkedin: "",
+    // Referrer (person submitting)
+    referrerName: "",
+    referrerEmail: "",
+    referrerPhone: "",
+    // Referral (person being referred)
+    referralName: "",
+    referralEmail: "",
+    referralPhone: "",
+    referralLinkedin: "",
   });
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -23,12 +29,28 @@ const ReferralForm = () => {
     e.preventDefault();
     setIsLoading(true);
 
-    // Simulate submission
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+    try {
+      const { error } = await supabase.from('referrals').insert({
+        referrer_name: formData.referrerName.trim(),
+        referrer_email: formData.referrerEmail.trim().toLowerCase(),
+        referrer_phone: formData.referrerPhone.trim() || null,
+        referral_name: formData.referralName.trim(),
+        referral_email: formData.referralEmail.trim().toLowerCase(),
+        referral_phone: formData.referralPhone.trim(),
+        referral_linkedin: formData.referralLinkedin.trim() || null,
+        referral_type: "partner",
+      });
 
-    setIsLoading(false);
-    setIsSubmitted(true);
-    toast.success("Referral submitted successfully! We'll reach out soon.");
+      if (error) throw error;
+
+      setIsSubmitted(true);
+      toast.success("Referral submitted successfully! We'll reach out soon.");
+    } catch (error) {
+      console.error("Referral submission error:", error);
+      toast.error("Failed to submit referral. Please try again.");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   if (isSubmitted) {
@@ -93,60 +115,111 @@ const ReferralForm = () => {
 
           {/* Right Side - Form */}
           <div className="glass-card p-8">
-            <h3 className="text-xl font-semibold mb-6">Referral Details</h3>
-            <form onSubmit={handleSubmit} className="space-y-5">
-              <div className="space-y-2">
-                <Label htmlFor="name">Full Name *</Label>
-                <Input
-                  id="name"
-                  name="name"
-                  placeholder="Enter referral's full name"
-                  value={formData.name}
-                  onChange={handleChange}
-                  required
-                  className="h-12 bg-secondary/50 border-border"
-                />
+            <form onSubmit={handleSubmit} className="space-y-6">
+              {/* Your Information Section */}
+              <div>
+                <h3 className="text-lg font-semibold mb-4">Your Information</h3>
+                <div className="space-y-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="referrerName">Your Full Name *</Label>
+                    <Input
+                      id="referrerName"
+                      name="referrerName"
+                      placeholder="Enter your full name"
+                      value={formData.referrerName}
+                      onChange={handleChange}
+                      required
+                      className="h-12 bg-secondary/50 border-border"
+                    />
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="referrerEmail">Your Email Address *</Label>
+                    <Input
+                      id="referrerEmail"
+                      name="referrerEmail"
+                      type="email"
+                      placeholder="your.email@example.com"
+                      value={formData.referrerEmail}
+                      onChange={handleChange}
+                      required
+                      className="h-12 bg-secondary/50 border-border"
+                    />
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="referrerPhone">Your Phone Number</Label>
+                    <Input
+                      id="referrerPhone"
+                      name="referrerPhone"
+                      type="tel"
+                      placeholder="+91 XXXXX XXXXX"
+                      value={formData.referrerPhone}
+                      onChange={handleChange}
+                      className="h-12 bg-secondary/50 border-border"
+                    />
+                  </div>
+                </div>
               </div>
 
-              <div className="space-y-2">
-                <Label htmlFor="email">Email Address *</Label>
-                <Input
-                  id="email"
-                  name="email"
-                  type="email"
-                  placeholder="email@example.com"
-                  value={formData.email}
-                  onChange={handleChange}
-                  required
-                  className="h-12 bg-secondary/50 border-border"
-                />
-              </div>
+              {/* Referral Information Section */}
+              <div className="pt-4 border-t border-border">
+                <h3 className="text-lg font-semibold mb-4">Referral's Information</h3>
+                <div className="space-y-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="referralName">Referral's Full Name *</Label>
+                    <Input
+                      id="referralName"
+                      name="referralName"
+                      placeholder="Enter referral's full name"
+                      value={formData.referralName}
+                      onChange={handleChange}
+                      required
+                      className="h-12 bg-secondary/50 border-border"
+                    />
+                  </div>
 
-              <div className="space-y-2">
-                <Label htmlFor="phone">Phone Number *</Label>
-                <Input
-                  id="phone"
-                  name="phone"
-                  type="tel"
-                  placeholder="+91 XXXXX XXXXX"
-                  value={formData.phone}
-                  onChange={handleChange}
-                  required
-                  className="h-12 bg-secondary/50 border-border"
-                />
-              </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="referralEmail">Referral's Email Address *</Label>
+                    <Input
+                      id="referralEmail"
+                      name="referralEmail"
+                      type="email"
+                      placeholder="referral@example.com"
+                      value={formData.referralEmail}
+                      onChange={handleChange}
+                      required
+                      className="h-12 bg-secondary/50 border-border"
+                    />
+                  </div>
 
-              <div className="space-y-2">
-                <Label htmlFor="linkedin">LinkedIn Profile</Label>
-                <Input
-                  id="linkedin"
-                  name="linkedin"
-                  type="url"
-                  placeholder="https://linkedin.com/in/username"
-                  value={formData.linkedin}
-                  onChange={handleChange}
-                  className="h-12 bg-secondary/50 border-border"
-                />
+                  <div className="space-y-2">
+                    <Label htmlFor="referralPhone">Referral's Phone Number *</Label>
+                    <Input
+                      id="referralPhone"
+                      name="referralPhone"
+                      type="tel"
+                      placeholder="+91 XXXXX XXXXX"
+                      value={formData.referralPhone}
+                      onChange={handleChange}
+                      required
+                      className="h-12 bg-secondary/50 border-border"
+                    />
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="referralLinkedin">Referral's LinkedIn Profile</Label>
+                    <Input
+                      id="referralLinkedin"
+                      name="referralLinkedin"
+                      type="url"
+                      placeholder="https://linkedin.com/in/username"
+                      value={formData.referralLinkedin}
+                      onChange={handleChange}
+                      className="h-12 bg-secondary/50 border-border"
+                    />
+                  </div>
+                </div>
               </div>
 
               <Button
