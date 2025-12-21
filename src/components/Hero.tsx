@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
-import { Linkedin, Mail, MessageCircle } from "lucide-react";
+import { Linkedin, Mail, MessageCircle, Package, ShieldCheck, Clock, Users, AlertTriangle } from "lucide-react";
+import parcelisLogo from "@/assets/parcelis-logo.png";
 
 const Hero = () => {
   const handleLinkedIn = () => {
@@ -11,8 +12,33 @@ const Hero = () => {
   };
 
   const handleWhatsApp = () => {
-    window.open("https://wa.me/919208711616", "_blank");
+    window.open("https://wa.me/+919208711616", "_blank");
   };
+
+  const painPoints = [
+    {
+      icon: AlertTriangle,
+      title: "Lost & Damaged Packages",
+      description: "Customers blame merchants for carrier failures, leading to negative reviews and refund demands"
+    },
+    {
+      icon: Clock,
+      title: "Support Team Overload",
+      description: "Hours wasted handling 'Where is my order?' queries and disputes draining resources"
+    },
+    {
+      icon: Users,
+      title: "Customer Trust Issues",
+      description: "Shoppers hesitate at checkout without protection, reducing conversions and lifetime value"
+    }
+  ];
+
+  const usps = [
+    { icon: ShieldCheck, text: "Comprehensive coverage: loss, damage, porch piracy" },
+    { icon: Package, text: "Zero merchant involvement in claims" },
+    { icon: Clock, text: "5-7 day claim resolution vs 30-60 days with carriers" },
+    { icon: Users, text: "99% customer satisfaction rate" }
+  ];
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden px-4 py-20">
@@ -23,9 +49,14 @@ const Hero = () => {
       </div>
 
       <div className="container relative z-10 max-w-5xl mx-auto text-center">
+        {/* Logo */}
+        <div className="animate-fade-up mb-8">
+          <img src={parcelisLogo} alt="Parcelis" className="h-16 md:h-20 mx-auto" />
+        </div>
+
         <div className="animate-fade-up">
           <span className="inline-block px-4 py-2 mb-6 text-sm font-semibold tracking-widest uppercase text-primary bg-primary/10 rounded-full border border-primary/20">
-            Parcelis Partner Program
+            Partner Program
           </span>
         </div>
 
@@ -39,7 +70,35 @@ const Hero = () => {
           by adding a trust layer to their checkout. Earn ₹5-8 per insured order.
         </p>
 
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16 animate-fade-up" style={{ animationDelay: "0.3s" }}>
+        {/* Pain Points Section */}
+        <div className="mb-12 animate-fade-up" style={{ animationDelay: "0.25s" }}>
+          <h3 className="text-lg font-semibold text-foreground/80 mb-6">Pain Points We Solve</h3>
+          <div className="grid md:grid-cols-3 gap-4">
+            {painPoints.map((point, i) => (
+              <div key={i} className="glass-card p-5 text-left border-destructive/20 hover:border-destructive/40 transition-colors">
+                <point.icon className="w-6 h-6 text-destructive mb-3" />
+                <h4 className="font-semibold text-foreground mb-2">{point.title}</h4>
+                <p className="text-sm text-muted-foreground">{point.description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* USP Section */}
+        <div className="mb-12 animate-fade-up" style={{ animationDelay: "0.3s" }}>
+          <h3 className="text-lg font-semibold text-foreground/80 mb-6">Why Parcelis?</h3>
+          <div className="flex flex-wrap justify-center gap-3">
+            {usps.map((usp, i) => (
+              <div key={i} className="flex items-center gap-2 px-4 py-2 bg-primary/10 rounded-full border border-primary/20">
+                <usp.icon className="w-4 h-4 text-primary" />
+                <span className="text-sm text-foreground">{usp.text}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Contact Buttons */}
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16 animate-fade-up" style={{ animationDelay: "0.35s" }}>
           <Button variant="hero" size="xl" onClick={handleLinkedIn}>
             <Linkedin className="w-5 h-5" />
             Connect on LinkedIn
