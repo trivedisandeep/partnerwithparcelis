@@ -1,9 +1,11 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
+import { Menu, X } from "lucide-react";
 import parcelisLogo from "@/assets/parcelis-logo.png";
 
 const Navigation = () => {
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -18,13 +20,22 @@ const Navigation = () => {
     if (element) {
       element.scrollIntoView({ behavior: "smooth" });
     }
+    setIsMobileMenuOpen(false);
   };
+
+  const navLinks = [
+    { id: "hero", label: "Home" },
+    { id: "how-it-works", label: "How It Works" },
+    { id: "calculator", label: "Calculator" },
+    { id: "case-study", label: "Case Study" },
+    { id: "referral", label: "Refer & Earn" },
+  ];
 
   return (
     <nav
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled
-          ? "bg-background/90 backdrop-blur-xl border-b border-border shadow-lg"
+        isScrolled || isMobileMenuOpen
+          ? "bg-background/95 backdrop-blur-xl border-b border-border shadow-lg"
           : "bg-transparent"
       }`}
     >
@@ -37,46 +48,64 @@ const Navigation = () => {
             onClick={() => scrollToSection("hero")}
           />
 
+          {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-6">
-            <button
-              onClick={() => scrollToSection("hero")}
-              className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-            >
-              Home
-            </button>
-            <button
-              onClick={() => scrollToSection("how-it-works")}
-              className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-            >
-              How It Works
-            </button>
-            <button
-              onClick={() => scrollToSection("calculator")}
-              className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-            >
-              Calculator
-            </button>
-            <button
-              onClick={() => scrollToSection("case-study")}
-              className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-            >
-              Case Study
-            </button>
-            <button
-              onClick={() => scrollToSection("referral")}
-              className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-            >
-              Refer & Earn
-            </button>
+            {navLinks.map((link) => (
+              <button
+                key={link.id}
+                onClick={() => scrollToSection(link.id)}
+                className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+              >
+                {link.label}
+              </button>
+            ))}
           </div>
 
-          <Button
-            variant="hero"
-            size="sm"
-            onClick={() => scrollToSection("referral")}
-          >
-            Partner With Us
-          </Button>
+          <div className="flex items-center gap-3">
+            <Button
+              variant="hero"
+              size="sm"
+              onClick={() => scrollToSection("referral")}
+              className="hidden sm:flex"
+            >
+              Partner With Us
+            </Button>
+
+            {/* Mobile Menu Button */}
+            <button
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              className="md:hidden p-2 text-foreground hover:bg-muted rounded-lg transition-colors"
+              aria-label="Toggle menu"
+            >
+              {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            </button>
+          </div>
+        </div>
+
+        {/* Mobile Menu */}
+        <div
+          className={`md:hidden overflow-hidden transition-all duration-300 ease-in-out ${
+            isMobileMenuOpen ? "max-h-96 pb-6" : "max-h-0"
+          }`}
+        >
+          <div className="flex flex-col gap-2 pt-4">
+            {navLinks.map((link) => (
+              <button
+                key={link.id}
+                onClick={() => scrollToSection(link.id)}
+                className="text-left px-4 py-3 text-foreground hover:bg-muted rounded-lg transition-colors"
+              >
+                {link.label}
+              </button>
+            ))}
+            <Button
+              variant="hero"
+              className="mt-4"
+              onClick={() => scrollToSection("referral")}
+            >
+              Partner With Us
+            </Button>
+          </div>
         </div>
       </div>
     </nav>
