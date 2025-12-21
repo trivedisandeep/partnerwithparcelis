@@ -3,16 +3,19 @@ import { Linkedin, Mail, MessageCircle, Package, ShieldCheck, Clock, Users, Aler
 import parcelisLogo from "@/assets/parcelis-logo.png";
 
 const Hero = () => {
-  const handleLinkedIn = () => {
-    window.open("https://www.linkedin.com/in/sandeepntrivedi/", "_blank");
+  const handleLinkedIn = (e: React.MouseEvent) => {
+    e.preventDefault();
+    window.open("https://www.linkedin.com/in/sandeepntrivedi/", "_blank", "noopener,noreferrer");
   };
 
-  const handleEmail = () => {
+  const handleEmail = (e: React.MouseEvent) => {
+    e.preventDefault();
     window.location.href = "mailto:sandeep.t@myparcelis.com";
   };
 
-  const handleWhatsApp = () => {
-    window.open("https://wa.me/+919208711616", "_blank");
+  const handleWhatsApp = (e: React.MouseEvent) => {
+    e.preventDefault();
+    window.open("https://wa.me/919208711616", "_blank", "noopener,noreferrer");
   };
 
   const painPoints = [
@@ -99,15 +102,30 @@ const Hero = () => {
 
         {/* Contact Buttons */}
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16 animate-fade-up" style={{ animationDelay: "0.35s" }}>
-          <Button variant="hero" size="xl" onClick={handleLinkedIn}>
+          <Button 
+            variant="hero" 
+            size="xl" 
+            onClick={handleLinkedIn}
+            className="cursor-pointer"
+          >
             <Linkedin className="w-5 h-5" />
             Connect on LinkedIn
           </Button>
-          <Button variant="glass" size="lg" onClick={handleEmail}>
+          <Button 
+            variant="glass" 
+            size="lg" 
+            onClick={handleEmail}
+            className="cursor-pointer"
+          >
             <Mail className="w-5 h-5" />
             Email Me
           </Button>
-          <Button variant="success" size="lg" onClick={handleWhatsApp}>
+          <Button 
+            variant="success" 
+            size="lg" 
+            onClick={handleWhatsApp}
+            className="cursor-pointer"
+          >
             <MessageCircle className="w-5 h-5" />
             WhatsApp
           </Button>
