@@ -9,7 +9,7 @@ import { z } from "zod";
 import HCaptcha from "@hcaptcha/react-hcaptcha";
 
 // hCaptcha site key - this is the public key (safe for client-side)
-const HCAPTCHA_SITE_KEY = "10000000-ffff-ffff-ffff-000000000001"; // Test key - replace with your actual site key
+const HCAPTCHA_SITE_KEY = "ceeece62-41f4-4650-9962-0f78dc64ce2e";
 
 // Validation schema
 const referralSchema = z.object({
