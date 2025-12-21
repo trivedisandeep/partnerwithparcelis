@@ -1,12 +1,46 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 
 const RESEND_API_KEY = Deno.env.get("RESEND_API_KEY");
+const SUPABASE_URL = Deno.env.get("SUPABASE_URL") || "";
 
-const corsHeaders = {
-  "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Headers":
-    "authorization, x-client-info, apikey, content-type",
-};
+// Allowed origins - add your production domain here
+const ALLOWED_ORIGINS = [
+  SUPABASE_URL.replace('//', '//').replace('supabase.co', 'lovable.app'), // Lovable preview
+  'http://localhost:5173', // Local development
+  'http://localhost:3000', // Alternative local dev port
+];
+
+// Rate limiting
+const rateLimit = new Map<string, number[]>();
+const RATE_LIMIT_WINDOW = 60000; // 1 minute
+const MAX_REQUESTS = 5;
+
+function getCorsHeaders(origin: string | null): Record<string, string> {
+  // Check if origin is allowed, default to first allowed origin if not
+  const allowedOrigin = origin && ALLOWED_ORIGINS.some(allowed => origin.includes(allowed.replace(/^https?:\/\//, '')))
+    ? origin 
+    : ALLOWED_ORIGINS[0] || '*';
+  
+  return {
+    "Access-Control-Allow-Origin": allowedOrigin,
+    "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
+  };
+}
+
+function checkRateLimit(ip: string): boolean {
+  const now = Date.now();
+  const recentRequests = (rateLimit.get(ip) || []).filter(
+    time => now - time < RATE_LIMIT_WINDOW
+  );
+  
+  if (recentRequests.length >= MAX_REQUESTS) {
+    return false;
+  }
+  
+  recentRequests.push(now);
+  rateLimit.set(ip, recentRequests);
+  return true;
+}
 
 interface ReferralNotificationRequest {
   referrerName: string;
@@ -41,16 +75,36 @@ async function sendEmail(to: string[], subject: string, html: string) {
 }
 
 const handler = async (req: Request): Promise<Response> => {
+  const origin = req.headers.get("origin");
+  const corsHeaders = getCorsHeaders(origin);
+  
   // Handle CORS preflight requests
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
+  }
+
+  // Rate limiting based on IP
+  const ip = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || 
+             req.headers.get("cf-connecting-ip") || 
+             "unknown";
+  
+  if (!checkRateLimit(ip)) {
+    console.log(`Rate limit exceeded for IP: ${ip}`);
+    return new Response(
+      JSON.stringify({ error: "Too many requests. Please try again later." }),
+      {
+        status: 429,
+        headers: { "Content-Type": "application/json", ...corsHeaders },
+      }
+    );
   }
 
   try {
     const data: ReferralNotificationRequest = await req.json();
     console.log("Received referral notification request:", { 
       referrerName: data.referrerName, 
-      referralName: data.referralName 
+      referralName: data.referralName,
+      ip 
     });
 
     // Send confirmation email to referrer
