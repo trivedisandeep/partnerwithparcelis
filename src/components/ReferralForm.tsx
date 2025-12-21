@@ -70,6 +70,24 @@ const ReferralForm = () => {
 
       if (error) throw error;
 
+      // Send email notification (fire and forget - don't block on email)
+      supabase.functions.invoke('send-referral-notification', {
+        body: {
+          referrerName: validatedData.referrerName.trim(),
+          referrerEmail: validatedData.referrerEmail.trim().toLowerCase(),
+          referralName: validatedData.referralName.trim(),
+          referralEmail: validatedData.referralEmail.trim().toLowerCase(),
+          referralPhone: validatedData.referralPhone.trim(),
+          referralLinkedin: validatedData.referralLinkedin?.trim() || null,
+        },
+      }).then((result) => {
+        if (result.error) {
+          console.error("Email notification error:", result.error);
+        } else {
+          console.log("Email notification sent successfully");
+        }
+      });
+
       setIsSubmitted(true);
       toast.success("Referral submitted successfully! We'll reach out soon.");
     } catch (error) {
