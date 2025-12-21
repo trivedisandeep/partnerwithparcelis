@@ -5,6 +5,23 @@ import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 import { Gift, Send, CheckCircle } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
+import { z } from "zod";
+
+// Validation schema
+const referralSchema = z.object({
+  referrerName: z.string().min(2, "Name must be at least 2 characters").max(100, "Name must be less than 100 characters"),
+  referrerEmail: z.string().email("Please enter a valid email address").max(255, "Email must be less than 255 characters"),
+  referrerPhone: z.string().regex(/^$|^\+?[1-9]\d{1,14}$/, "Please enter a valid phone number").optional().or(z.literal('')),
+  referralName: z.string().min(2, "Name must be at least 2 characters").max(100, "Name must be less than 100 characters"),
+  referralEmail: z.string().email("Please enter a valid email address").max(255, "Email must be less than 255 characters"),
+  referralPhone: z.string().regex(/^\+?[1-9]\d{1,14}$/, "Please enter a valid phone number"),
+  referralLinkedin: z.string()
+    .refine((val) => val === '' || (val.startsWith('http') && val.includes('linkedin.com')), {
+      message: "Please enter a valid LinkedIn URL"
+    })
+    .optional()
+    .or(z.literal('')),
+});
 
 const ReferralForm = () => {
   const [formData, setFormData] = useState({
@@ -20,24 +37,34 @@ const ReferralForm = () => {
   });
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [errors, setErrors] = useState<Record<string, string>>({});
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+    // Clear error when user starts typing
+    if (errors[name]) {
+      setErrors({ ...errors, [name]: "" });
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
+    setErrors({});
 
     try {
+      // Validate input with zod
+      const validatedData = referralSchema.parse(formData);
+
       const { error } = await supabase.from('referrals').insert({
-        referrer_name: formData.referrerName.trim(),
-        referrer_email: formData.referrerEmail.trim().toLowerCase(),
-        referrer_phone: formData.referrerPhone.trim() || null,
-        referral_name: formData.referralName.trim(),
-        referral_email: formData.referralEmail.trim().toLowerCase(),
-        referral_phone: formData.referralPhone.trim(),
-        referral_linkedin: formData.referralLinkedin.trim() || null,
+        referrer_name: validatedData.referrerName.trim(),
+        referrer_email: validatedData.referrerEmail.trim().toLowerCase(),
+        referrer_phone: validatedData.referrerPhone?.trim() || null,
+        referral_name: validatedData.referralName.trim(),
+        referral_email: validatedData.referralEmail.trim().toLowerCase(),
+        referral_phone: validatedData.referralPhone.trim(),
+        referral_linkedin: validatedData.referralLinkedin?.trim() || null,
         referral_type: "partner",
       });
 
@@ -46,8 +73,19 @@ const ReferralForm = () => {
       setIsSubmitted(true);
       toast.success("Referral submitted successfully! We'll reach out soon.");
     } catch (error) {
-      console.error("Referral submission error:", error);
-      toast.error("Failed to submit referral. Please try again.");
+      if (error instanceof z.ZodError) {
+        const fieldErrors: Record<string, string> = {};
+        error.errors.forEach((err) => {
+          if (err.path[0]) {
+            fieldErrors[err.path[0] as string] = err.message;
+          }
+        });
+        setErrors(fieldErrors);
+        toast.error("Please fix the validation errors");
+      } else {
+        console.error("Referral submission error:", error);
+        toast.error("Failed to submit referral. Please try again.");
+      }
     } finally {
       setIsLoading(false);
     }
@@ -129,8 +167,9 @@ const ReferralForm = () => {
                       value={formData.referrerName}
                       onChange={handleChange}
                       required
-                      className="h-12 bg-secondary/50 border-border"
+                      className={`h-12 bg-secondary/50 border-border ${errors.referrerName ? 'border-destructive' : ''}`}
                     />
+                    {errors.referrerName && <p className="text-sm text-destructive">{errors.referrerName}</p>}
                   </div>
 
                   <div className="space-y-2">
@@ -143,8 +182,9 @@ const ReferralForm = () => {
                       value={formData.referrerEmail}
                       onChange={handleChange}
                       required
-                      className="h-12 bg-secondary/50 border-border"
+                      className={`h-12 bg-secondary/50 border-border ${errors.referrerEmail ? 'border-destructive' : ''}`}
                     />
+                    {errors.referrerEmail && <p className="text-sm text-destructive">{errors.referrerEmail}</p>}
                   </div>
 
                   <div className="space-y-2">
@@ -156,8 +196,9 @@ const ReferralForm = () => {
                       placeholder="+91 XXXXX XXXXX"
                       value={formData.referrerPhone}
                       onChange={handleChange}
-                      className="h-12 bg-secondary/50 border-border"
+                      className={`h-12 bg-secondary/50 border-border ${errors.referrerPhone ? 'border-destructive' : ''}`}
                     />
+                    {errors.referrerPhone && <p className="text-sm text-destructive">{errors.referrerPhone}</p>}
                   </div>
                 </div>
               </div>
@@ -175,8 +216,9 @@ const ReferralForm = () => {
                       value={formData.referralName}
                       onChange={handleChange}
                       required
-                      className="h-12 bg-secondary/50 border-border"
+                      className={`h-12 bg-secondary/50 border-border ${errors.referralName ? 'border-destructive' : ''}`}
                     />
+                    {errors.referralName && <p className="text-sm text-destructive">{errors.referralName}</p>}
                   </div>
 
                   <div className="space-y-2">
@@ -189,8 +231,9 @@ const ReferralForm = () => {
                       value={formData.referralEmail}
                       onChange={handleChange}
                       required
-                      className="h-12 bg-secondary/50 border-border"
+                      className={`h-12 bg-secondary/50 border-border ${errors.referralEmail ? 'border-destructive' : ''}`}
                     />
+                    {errors.referralEmail && <p className="text-sm text-destructive">{errors.referralEmail}</p>}
                   </div>
 
                   <div className="space-y-2">
@@ -203,8 +246,9 @@ const ReferralForm = () => {
                       value={formData.referralPhone}
                       onChange={handleChange}
                       required
-                      className="h-12 bg-secondary/50 border-border"
+                      className={`h-12 bg-secondary/50 border-border ${errors.referralPhone ? 'border-destructive' : ''}`}
                     />
+                    {errors.referralPhone && <p className="text-sm text-destructive">{errors.referralPhone}</p>}
                   </div>
 
                   <div className="space-y-2">
@@ -216,8 +260,9 @@ const ReferralForm = () => {
                       placeholder="https://linkedin.com/in/username"
                       value={formData.referralLinkedin}
                       onChange={handleChange}
-                      className="h-12 bg-secondary/50 border-border"
+                      className={`h-12 bg-secondary/50 border-border ${errors.referralLinkedin ? 'border-destructive' : ''}`}
                     />
+                    {errors.referralLinkedin && <p className="text-sm text-destructive">{errors.referralLinkedin}</p>}
                   </div>
                 </div>
               </div>
