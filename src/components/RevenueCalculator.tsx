@@ -1,27 +1,54 @@
 import { useState, useEffect } from "react";
 import { Slider } from "@/components/ui/slider";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+
+type Currency = "USD" | "INR" | "EUR" | "GBP";
+
+const currencyConfig: Record<Currency, { symbol: string; locale: string; rate: number }> = {
+  USD: { symbol: "$", locale: "en-US", rate: 1 },
+  INR: { symbol: "₹", locale: "en-IN", rate: 83 },
+  EUR: { symbol: "€", locale: "de-DE", rate: 0.92 },
+  GBP: { symbol: "£", locale: "en-GB", rate: 0.79 },
+};
 
 const RevenueCalculator = () => {
   const [stores, setStores] = useState(5);
   const [ordersPerStore, setOrdersPerStore] = useState(1000);
   const [optInRate, setOptInRate] = useState(40);
-  const [commission, setCommission] = useState(5);
+  const [commission, setCommission] = useState(0.05); // USD base rate
+  const [currency, setCurrency] = useState<Currency>("USD");
 
   const [monthlyRevenue, setMonthlyRevenue] = useState(0);
   const [annualRevenue, setAnnualRevenue] = useState(0);
 
   useEffect(() => {
-    const monthly = Math.round(stores * ordersPerStore * (optInRate / 100) * commission);
+    // Calculate in USD, then convert to selected currency
+    const monthlyUSD = stores * ordersPerStore * (optInRate / 100) * commission;
+    const config = currencyConfig[currency];
+    const monthly = Math.round(monthlyUSD * config.rate);
     setMonthlyRevenue(monthly);
     setAnnualRevenue(monthly * 12);
-  }, [stores, ordersPerStore, optInRate, commission]);
+  }, [stores, ordersPerStore, optInRate, commission, currency]);
 
   const formatCurrency = (value: number) => {
-    return new Intl.NumberFormat('en-IN', {
+    const config = currencyConfig[currency];
+    return new Intl.NumberFormat(config.locale, {
       style: 'currency',
-      currency: 'INR',
+      currency: currency,
       maximumFractionDigits: 0,
     }).format(value);
+  };
+
+  const formatCommission = (value: number) => {
+    const config = currencyConfig[currency];
+    const convertedValue = value * config.rate;
+    return `${config.symbol}${convertedValue.toFixed(2)}`;
   };
 
   return (
@@ -41,6 +68,24 @@ const RevenueCalculator = () => {
         </div>
 
         <div className="glass-card p-8 md:p-12">
+          {/* Currency Selector */}
+          <div className="flex justify-end mb-6">
+            <div className="flex items-center gap-2">
+              <span className="text-sm text-muted-foreground">Currency:</span>
+              <Select value={currency} onValueChange={(val) => setCurrency(val as Currency)}>
+                <SelectTrigger className="w-[100px] h-9 bg-secondary/50 border-border">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent className="bg-popover border-border">
+                  <SelectItem value="USD">$ USD</SelectItem>
+                  <SelectItem value="INR">₹ INR</SelectItem>
+                  <SelectItem value="EUR">€ EUR</SelectItem>
+                  <SelectItem value="GBP">£ GBP</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
+
           <div className="grid md:grid-cols-2 gap-12">
             {/* Inputs */}
             <div className="space-y-8">
@@ -91,17 +136,21 @@ const RevenueCalculator = () => {
 
               <div>
                 <div className="flex justify-between mb-3">
-                  <label className="text-sm font-medium text-muted-foreground">Commission per Order (₹)</label>
-                  <span className="text-lg font-bold text-primary">₹{commission}</span>
+                  <label className="text-sm font-medium text-muted-foreground">Commission per Order</label>
+                  <span className="text-lg font-bold text-primary">{formatCommission(commission)}</span>
                 </div>
                 <Slider
                   value={[commission]}
                   onValueChange={(v) => setCommission(v[0])}
-                  max={10}
-                  min={3}
-                  step={1}
+                  max={0.08}
+                  min={0.05}
+                  step={0.01}
                   className="w-full"
                 />
+                <div className="flex justify-between text-xs text-muted-foreground mt-1">
+                  <span>{formatCommission(0.05)}</span>
+                  <span>{formatCommission(0.08)}</span>
+                </div>
               </div>
             </div>
 
@@ -130,7 +179,7 @@ const RevenueCalculator = () => {
               </div>
 
               <p className="text-center text-sm text-muted-foreground mt-4">
-                Based on {stores} stores × {ordersPerStore.toLocaleString()} orders × {optInRate}% opt-in × ₹{commission}
+                Based on {stores} stores × {ordersPerStore.toLocaleString()} orders × {optInRate}% opt-in × {formatCommission(commission)}
               </p>
             </div>
           </div>

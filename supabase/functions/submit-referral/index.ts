@@ -6,28 +6,16 @@ const RESEND_API_KEY = Deno.env.get("RESEND_API_KEY");
 const SUPABASE_URL = Deno.env.get("SUPABASE_URL") || "";
 const SUPABASE_SERVICE_ROLE_KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") || "";
 
-// Allowed origins - add your production domain here
-const ALLOWED_ORIGINS = [
-  SUPABASE_URL.replace('//', '//').replace('supabase.co', 'lovable.app'),
-  'http://localhost:5173',
-  'http://localhost:3000',
-];
+// CORS headers - allow all origins for the referral form
+const corsHeaders = {
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
+};
 
 // Rate limiting
 const rateLimit = new Map<string, number[]>();
 const RATE_LIMIT_WINDOW = 60000; // 1 minute
 const MAX_REQUESTS = 5;
-
-function getCorsHeaders(origin: string | null): Record<string, string> {
-  const allowedOrigin = origin && ALLOWED_ORIGINS.some(allowed => origin.includes(allowed.replace(/^https?:\/\//, '')))
-    ? origin 
-    : ALLOWED_ORIGINS[0] || '*';
-  
-  return {
-    "Access-Control-Allow-Origin": allowedOrigin,
-    "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
-  };
-}
 
 function checkRateLimit(ip: string): boolean {
   const now = Date.now();
@@ -98,9 +86,6 @@ interface SubmitReferralRequest {
 }
 
 const handler = async (req: Request): Promise<Response> => {
-  const origin = req.headers.get("origin");
-  const corsHeaders = getCorsHeaders(origin);
-  
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
   }
