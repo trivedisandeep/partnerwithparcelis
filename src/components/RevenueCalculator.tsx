@@ -8,11 +8,10 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-type Currency = "USD" | "INR" | "EUR" | "GBP";
+type Currency = "USD" | "EUR" | "GBP";
 
 const currencyConfig: Record<Currency, { symbol: string; locale: string; rate: number }> = {
   USD: { symbol: "$", locale: "en-US", rate: 1 },
-  INR: { symbol: "₹", locale: "en-IN", rate: 83 },
   EUR: { symbol: "€", locale: "de-DE", rate: 0.92 },
   GBP: { symbol: "£", locale: "en-GB", rate: 0.79 },
 };
@@ -78,7 +77,6 @@ const RevenueCalculator = () => {
                 </SelectTrigger>
                 <SelectContent className="bg-popover border-border">
                   <SelectItem value="USD">$ USD</SelectItem>
-                  <SelectItem value="INR">₹ INR</SelectItem>
                   <SelectItem value="EUR">€ EUR</SelectItem>
                   <SelectItem value="GBP">£ GBP</SelectItem>
                 </SelectContent>
