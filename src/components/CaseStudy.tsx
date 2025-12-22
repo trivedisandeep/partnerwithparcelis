@@ -15,7 +15,7 @@ const CaseStudy = () => {
                 $1,880 Monthly Revenue
               </h2>
               <p className="text-muted-foreground text-lg mb-8">
-                Mumbai-based agency implemented Parcelis across 23 stores. 
+                US-based eCommerce agency implemented Parcelis across 23 stores. 
                 Total setup time: ~90 minutes.
               </p>
 
