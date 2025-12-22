@@ -70,7 +70,7 @@ const Hero = () => {
 
         <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto mb-10 leading-relaxed animate-fade-up" style={{ animationDelay: "0.2s" }}>
           Generate consistent, zero-maintenance recurring revenue from your existing client base 
-          by adding a trust layer to their checkout. Earn ₹5-8 per insured order.
+          by adding a trust layer to their checkout. Earn $0.05-0.08 per insured order.
         </p>
 
         {/* Pain Points Section */}
@@ -134,7 +134,7 @@ const Hero = () => {
         {/* Stats */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6 animate-fade-up" style={{ animationDelay: "0.4s" }}>
           {[
-            { value: "₹5-8", label: "Per Insured Order" },
+            { value: "$0.05-0.08", label: "Per Insured Order" },
             { value: "40-60%", label: "Customer Opt-in Rate" },
             { value: "3 Min", label: "Setup Time" },
             { value: "0", label: "Maintenance Required" },
