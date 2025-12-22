@@ -4,8 +4,8 @@ const steps = [
   {
     icon: ShieldCheck,
     title: "Checkout Protection",
-    description: "Customer sees optional protection (₹15-30) at checkout",
-    highlight: "₹15-30",
+    description: "Customer sees optional protection at checkout",
+    highlight: "Optional",
   },
   {
     icon: Users,
