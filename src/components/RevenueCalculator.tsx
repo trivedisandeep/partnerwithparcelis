@@ -18,7 +18,7 @@ const currencyConfig: Record<Currency, { symbol: string; locale: string; rate: n
 
 const RevenueCalculator = () => {
   const [stores, setStores] = useState(5);
-  const [ordersPerStore, setOrdersPerStore] = useState(1000);
+  const [ordersPerDay, setOrdersPerDay] = useState(50);
   const [optInRate, setOptInRate] = useState(40);
   const [commission, setCommission] = useState(0.05); // USD base rate
   const [currency, setCurrency] = useState<Currency>("USD");
@@ -28,12 +28,13 @@ const RevenueCalculator = () => {
 
   useEffect(() => {
     // Calculate in USD, then convert to selected currency
-    const monthlyUSD = stores * ordersPerStore * (optInRate / 100) * commission;
+    // Orders per day × 30 days × stores × opt-in rate × commission
+    const monthlyUSD = stores * (ordersPerDay * 30) * (optInRate / 100) * commission;
     const config = currencyConfig[currency];
     const monthly = Math.round(monthlyUSD * config.rate);
     setMonthlyRevenue(monthly);
     setAnnualRevenue(monthly * 12);
-  }, [stores, ordersPerStore, optInRate, commission, currency]);
+  }, [stores, ordersPerDay, optInRate, commission, currency]);
 
   const formatCurrency = (value: number) => {
     const config = currencyConfig[currency];
@@ -104,15 +105,15 @@ const RevenueCalculator = () => {
 
               <div>
                 <div className="flex justify-between mb-3">
-                  <label className="text-sm font-medium text-muted-foreground">Orders per Store/Month</label>
-                  <span className="text-lg font-bold text-primary">{ordersPerStore.toLocaleString()}</span>
+                  <label className="text-sm font-medium text-muted-foreground">Orders per Store/Day</label>
+                  <span className="text-lg font-bold text-primary">{ordersPerDay.toLocaleString()}</span>
                 </div>
                 <Slider
-                  value={[ordersPerStore]}
-                  onValueChange={(v) => setOrdersPerStore(v[0])}
-                  max={10000}
-                  min={100}
-                  step={100}
+                  value={[ordersPerDay]}
+                  onValueChange={(v) => setOrdersPerDay(v[0])}
+                  max={500}
+                  min={10}
+                  step={10}
                   className="w-full"
                 />
               </div>
@@ -177,7 +178,7 @@ const RevenueCalculator = () => {
               </div>
 
               <p className="text-center text-sm text-muted-foreground mt-4">
-                Based on {stores} stores × {ordersPerStore.toLocaleString()} orders × {optInRate}% opt-in × {formatCommission(commission)}
+                Based on {stores} stores × {ordersPerDay.toLocaleString()} orders/day × 30 days × {optInRate}% opt-in × {formatCommission(commission)}
               </p>
             </div>
           </div>
