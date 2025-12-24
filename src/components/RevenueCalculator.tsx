@@ -135,21 +135,22 @@ const RevenueCalculator = () => {
 
               <div>
                 <div className="flex justify-between mb-3">
-                  <label className="text-sm font-medium text-muted-foreground">Commission per Order</label>
+                  <label className="text-sm font-medium text-muted-foreground">Commission per Order*</label>
                   <span className="text-lg font-bold text-primary">{formatCommission(commission)}</span>
                 </div>
                 <Slider
                   value={[commission]}
                   onValueChange={(v) => setCommission(v[0])}
-                  max={0.08}
+                  max={0.10}
                   min={0.05}
                   step={0.01}
                   className="w-full"
                 />
                 <div className="flex justify-between text-xs text-muted-foreground mt-1">
                   <span>{formatCommission(0.05)}</span>
-                  <span>{formatCommission(0.08)}</span>
+                  <span>{formatCommission(0.10)}</span>
                 </div>
+                <p className="text-xs text-muted-foreground mt-2">*Based on volumetric orders</p>
               </div>
             </div>
 
