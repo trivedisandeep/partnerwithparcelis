@@ -2,6 +2,7 @@ import Navigation from "@/components/Navigation";
 import Hero from "@/components/Hero";
 import HowItWorks from "@/components/HowItWorks";
 import RevenueCalculator from "@/components/RevenueCalculator";
+import Testimonials from "@/components/Testimonials";
 import CaseStudy from "@/components/CaseStudy";
 import ReferralForm from "@/components/ReferralForm";
 import Footer from "@/components/Footer";
@@ -18,6 +19,9 @@ const Index = () => {
       </section>
       <section id="calculator">
         <RevenueCalculator />
+      </section>
+      <section id="testimonials">
+        <Testimonials />
       </section>
       <section id="case-study">
         <CaseStudy />
