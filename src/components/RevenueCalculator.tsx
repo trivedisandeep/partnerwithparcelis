@@ -17,7 +17,7 @@ const currencyConfig: Record<Currency, { symbol: string; locale: string; rate: n
 };
 
 const RevenueCalculator = () => {
-  const [stores, setStores] = useState(5);
+  const [stores, setStores] = useState(100);
   const [ordersPerDay, setOrdersPerDay] = useState(50);
   const [optInRate, setOptInRate] = useState(40);
   const [commission, setCommission] = useState(0.05); // USD base rate
@@ -91,14 +91,14 @@ const RevenueCalculator = () => {
               <div>
                 <div className="flex justify-between mb-3">
                   <label className="text-sm font-medium text-muted-foreground">Active Stores</label>
-                  <span className="text-lg font-bold text-primary">{stores}</span>
+                  <span className="text-lg font-bold text-primary">{stores.toLocaleString()}</span>
                 </div>
                 <Slider
                   value={[stores]}
                   onValueChange={(v) => setStores(v[0])}
-                  max={50}
+                  max={50000}
                   min={1}
-                  step={1}
+                  step={100}
                   className="w-full"
                 />
               </div>
