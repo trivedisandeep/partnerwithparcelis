@@ -1,21 +1,21 @@
 import { Button } from "@/components/ui/button";
-import { Linkedin, Mail, MessageCircle, Package, ShieldCheck, Clock, Users, AlertTriangle } from "lucide-react";
+import { Linkedin, Calendar, ShoppingBag, Package, ShieldCheck, Clock, Users, AlertTriangle } from "lucide-react";
 import parcelisLogo from "@/assets/parcelis-logo.png";
 
 const Hero = () => {
   const handleLinkedIn = (e: React.MouseEvent) => {
     e.preventDefault();
-    window.open("https://www.linkedin.com/in/sandeepntrivedi/", "_blank", "noopener,noreferrer");
+    window.open("https://www.linkedin.com/company/myparcelis", "_blank", "noopener,noreferrer");
   };
 
-  const handleEmail = (e: React.MouseEvent) => {
+  const handleBookCall = (e: React.MouseEvent) => {
     e.preventDefault();
-    window.location.href = "mailto:sandeep.t@myparcelis.com";
+    window.open("https://calendar.app.google/fdR9BaCzE23cVwVj6", "_blank", "noopener,noreferrer");
   };
 
-  const handleWhatsApp = (e: React.MouseEvent) => {
+  const handleShopify = (e: React.MouseEvent) => {
     e.preventDefault();
-    window.open("https://wa.me/919208711616", "_blank", "noopener,noreferrer");
+    window.open("https://apps.shopify.com/parcelis?search_id=8fdbf485-cf4d-4f9e-95f9-708c4cabd805&surface_detail=parcelis&surface_inter_position=1&surface_intra_position=2&surface_type=search", "_blank", "noopener,noreferrer");
   };
 
   const painPoints = [
@@ -114,20 +114,20 @@ const Hero = () => {
           <Button 
             variant="glass" 
             size="lg" 
-            onClick={handleEmail}
+            onClick={handleBookCall}
             className="cursor-pointer"
           >
-            <Mail className="w-5 h-5" />
-            Email Me
+            <Calendar className="w-5 h-5" />
+            Book a Call
           </Button>
           <Button 
             variant="success" 
             size="lg" 
-            onClick={handleWhatsApp}
+            onClick={handleShopify}
             className="cursor-pointer"
           >
-            <MessageCircle className="w-5 h-5" />
-            WhatsApp
+            <ShoppingBag className="w-5 h-5" />
+            Checkout on Shopify
           </Button>
         </div>
 
