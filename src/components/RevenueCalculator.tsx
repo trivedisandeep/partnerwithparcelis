@@ -1,4 +1,5 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
+import { useAnimatedCounter } from "@/hooks/use-animated-counter";
 import { Slider } from "@/components/ui/slider";
 import { Input } from "@/components/ui/input";
 import {
@@ -54,6 +55,10 @@ const RevenueCalculator = () => {
 
   const [monthlyRevenue, setMonthlyRevenue] = useState(0);
   const [annualRevenue, setAnnualRevenue] = useState(0);
+  
+  // Animated display values
+  const animatedMonthly = useAnimatedCounter(monthlyRevenue, { duration: 400 });
+  const animatedAnnual = useAnimatedCounter(annualRevenue, { duration: 400 });
 
   useEffect(() => {
     // Calculate in USD, then convert to selected currency
@@ -206,8 +211,8 @@ const RevenueCalculator = () => {
                   <p className="text-sm uppercase tracking-widest text-muted-foreground mb-2">
                     Estimated Monthly
                   </p>
-                  <p className="text-4xl md:text-5xl font-bold text-accent">
-                    {formatCurrency(monthlyRevenue)}
+                  <p className="text-4xl md:text-5xl font-bold text-accent transition-all duration-200">
+                    {formatCurrency(animatedMonthly)}
                   </p>
                 </div>
 
@@ -217,8 +222,8 @@ const RevenueCalculator = () => {
                   <p className="text-sm uppercase tracking-widest text-muted-foreground mb-2">
                     Annual Revenue
                   </p>
-                  <p className="text-3xl md:text-4xl font-bold text-foreground">
-                    {formatCurrency(annualRevenue)}
+                  <p className="text-3xl md:text-4xl font-bold text-foreground transition-all duration-200">
+                    {formatCurrency(animatedAnnual)}
                   </p>
                 </div>
               </div>
