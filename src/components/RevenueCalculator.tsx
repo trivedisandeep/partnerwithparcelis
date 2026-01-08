@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Slider } from "@/components/ui/slider";
+import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
@@ -17,8 +18,36 @@ const currencyConfig: Record<Currency, { symbol: string; locale: string; rate: n
 };
 
 const RevenueCalculator = () => {
-  const [stores, setStores] = useState(100);
+  const [stores, setStores] = useState(10);
   const [ordersPerDay, setOrdersPerDay] = useState(50);
+  const [storesInput, setStoresInput] = useState("10");
+  const [ordersInput, setOrdersInput] = useState("50");
+
+  const handleStoresChange = (value: number) => {
+    setStores(value);
+    setStoresInput(value.toString());
+  };
+
+  const handleOrdersChange = (value: number) => {
+    setOrdersPerDay(value);
+    setOrdersInput(value.toString());
+  };
+
+  const handleStoresInputChange = (value: string) => {
+    setStoresInput(value);
+    const num = parseInt(value, 10);
+    if (!isNaN(num) && num >= 1 && num <= 999999) {
+      setStores(num);
+    }
+  };
+
+  const handleOrdersInputChange = (value: string) => {
+    setOrdersInput(value);
+    const num = parseInt(value, 10);
+    if (!isNaN(num) && num >= 1 && num <= 999999) {
+      setOrdersPerDay(num);
+    }
+  };
   const [optInRate, setOptInRate] = useState(40);
   const [commission, setCommission] = useState(0.05); // USD base rate
   const [currency, setCurrency] = useState<Currency>("USD");
@@ -89,33 +118,49 @@ const RevenueCalculator = () => {
             {/* Inputs */}
             <div className="space-y-8">
               <div>
-                <div className="flex justify-between mb-3">
+                <div className="flex justify-between items-center mb-3">
                   <label className="text-sm font-medium text-muted-foreground">Active Stores</label>
-                  <span className="text-lg font-bold text-primary">{stores.toLocaleString()}</span>
+                  <Input
+                    type="number"
+                    value={storesInput}
+                    onChange={(e) => handleStoresInputChange(e.target.value)}
+                    className="w-28 h-8 text-right text-lg font-bold text-primary bg-secondary/50 border-border"
+                    min={1}
+                    max={999999}
+                  />
                 </div>
                 <Slider
-                  value={[stores]}
-                  onValueChange={(v) => setStores(v[0])}
-                  max={50000}
+                  value={[Math.min(stores, 1000)]}
+                  onValueChange={(v) => handleStoresChange(v[0])}
+                  max={1000}
                   min={1}
-                  step={100}
+                  step={1}
                   className="w-full"
                 />
+                <p className="text-xs text-muted-foreground mt-1">Slider: 1-1000 • Input: up to 999,999</p>
               </div>
 
               <div>
-                <div className="flex justify-between mb-3">
+                <div className="flex justify-between items-center mb-3">
                   <label className="text-sm font-medium text-muted-foreground">Orders per Store/Day</label>
-                  <span className="text-lg font-bold text-primary">{ordersPerDay.toLocaleString()}</span>
+                  <Input
+                    type="number"
+                    value={ordersInput}
+                    onChange={(e) => handleOrdersInputChange(e.target.value)}
+                    className="w-28 h-8 text-right text-lg font-bold text-primary bg-secondary/50 border-border"
+                    min={1}
+                    max={999999}
+                  />
                 </div>
                 <Slider
-                  value={[ordersPerDay]}
-                  onValueChange={(v) => setOrdersPerDay(v[0])}
+                  value={[Math.min(ordersPerDay, 500)]}
+                  onValueChange={(v) => handleOrdersChange(v[0])}
                   max={500}
-                  min={10}
-                  step={10}
+                  min={1}
+                  step={1}
                   className="w-full"
                 />
+                <p className="text-xs text-muted-foreground mt-1">Slider: 1-500 • Input: up to 999,999</p>
               </div>
 
               <div>

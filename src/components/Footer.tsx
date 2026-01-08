@@ -1,18 +1,18 @@
 import { Button } from "@/components/ui/button";
-import { Linkedin, Mail, MessageCircle, Shield, Package, Zap } from "lucide-react";
+import { Linkedin, Calendar, ShoppingBag, Shield, Package, Zap } from "lucide-react";
 import parcelisLogo from "@/assets/parcelis-logo.png";
 
 const Footer = () => {
   const handleLinkedIn = () => {
-    window.open("https://www.linkedin.com/in/sandeepntrivedi/", "_blank");
+    window.open("https://www.linkedin.com/company/myparcelis", "_blank", "noopener,noreferrer");
   };
 
-  const handleEmail = () => {
-    window.location.href = "mailto:sandeep.t@myparcelis.com";
+  const handleBookCall = () => {
+    window.open("https://calendar.app.google/fdR9BaCzE23cVwVj6", "_blank", "noopener,noreferrer");
   };
 
-  const handleWhatsApp = () => {
-    window.open("https://wa.me/+919208711616", "_blank");
+  const handleShopify = () => {
+    window.open("https://apps.shopify.com/parcelis?search_id=8fdbf485-cf4d-4f9e-95f9-708c4cabd805&surface_detail=parcelis&surface_inter_position=1&surface_intra_position=2&surface_type=search", "_blank", "noopener,noreferrer");
   };
 
   return (
@@ -35,13 +35,13 @@ const Footer = () => {
               <Linkedin className="w-5 h-5" />
               Connect on LinkedIn
             </Button>
-            <Button variant="glass" size="lg" onClick={handleEmail}>
-              <Mail className="w-5 h-5" />
-              sandeep.t@myparcelis.com
+            <Button variant="glass" size="lg" onClick={handleBookCall}>
+              <Calendar className="w-5 h-5" />
+              Book a Call
             </Button>
-            <Button variant="success" size="lg" onClick={handleWhatsApp}>
-              <MessageCircle className="w-5 h-5" />
-              WhatsApp
+            <Button variant="success" size="lg" onClick={handleShopify}>
+              <ShoppingBag className="w-5 h-5" />
+              Checkout on Shopify
             </Button>
           </div>
         </div>
