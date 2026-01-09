@@ -134,7 +134,7 @@ const Hero = () => {
         {/* Stats */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6 animate-fade-up" style={{ animationDelay: "0.4s" }}>
           {[
-            { value: "$0.05-0.08", label: "Per Insured Order" },
+            { value: "$0.05-0.10", label: "Per Insured Order" },
             { value: "40-60%", label: "Customer Opt-in Rate" },
             { value: "3 Min", label: "Setup Time" },
             { value: "0", label: "Maintenance Required" },
