@@ -185,7 +185,7 @@ const RevenueCalculator = () => {
 
               <div>
                 <div className="flex justify-between mb-3">
-                  <label className="text-sm font-medium text-muted-foreground">Commission per Order*</label>
+                  <label className="text-sm font-medium text-muted-foreground">Per Insured Order*</label>
                   <span className="text-lg font-bold text-primary">{formatCommission(commission)}</span>
                 </div>
                 <Slider
