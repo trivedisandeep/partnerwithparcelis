@@ -101,7 +101,7 @@ const Hero = () => {
         </div>
 
         {/* Contact Buttons */}
-        <div className="flex flex-col items-center gap-6 mb-16 animate-fade-up" style={{ animationDelay: "0.35s" }}>
+        <div className="flex flex-col items-center gap-4 mb-16 animate-fade-up" style={{ animationDelay: "0.35s" }}>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <Button 
               variant="hero" 
@@ -131,12 +131,7 @@ const Hero = () => {
               Checkout on Shopify
             </Button>
           </div>
-          
-          {/* Pricing Block */}
-          <div className="bg-card/80 backdrop-blur-xl border-2 border-border/50 rounded-2xl px-8 py-5 text-center shadow-lg">
-            <div className="text-2xl md:text-3xl font-bold text-primary mb-1">$0.05–0.08</div>
-            <div className="text-sm text-muted-foreground">Per Insured Order</div>
-          </div>
+          <p className="text-sm text-muted-foreground font-medium">$0.05 - $0.08 per insured order</p>
         </div>
 
         {/* Stats */}
