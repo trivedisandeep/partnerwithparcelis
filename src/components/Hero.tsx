@@ -101,37 +101,34 @@ const Hero = () => {
         </div>
 
         {/* Contact Buttons */}
-        <div className="flex flex-col items-center gap-4 mb-16 animate-fade-up" style={{ animationDelay: "0.35s" }}>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Button 
-              variant="hero" 
-              size="xl" 
-              onClick={handleLinkedIn}
-              className="cursor-pointer"
-            >
-              <Linkedin className="w-5 h-5" />
-              Connect on LinkedIn
-            </Button>
-            <Button 
-              variant="glass" 
-              size="lg" 
-              onClick={handleBookCall}
-              className="cursor-pointer"
-            >
-              <Calendar className="w-5 h-5" />
-              Book a Call
-            </Button>
-            <Button 
-              variant="success" 
-              size="lg" 
-              onClick={handleShopify}
-              className="cursor-pointer"
-            >
-              <ShoppingBag className="w-5 h-5" />
-              Checkout on Shopify
-            </Button>
-          </div>
-          <p className="text-sm text-muted-foreground font-medium">$0.05 - $0.08 per insured order</p>
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16 animate-fade-up" style={{ animationDelay: "0.35s" }}>
+          <Button 
+            variant="hero" 
+            size="xl" 
+            onClick={handleLinkedIn}
+            className="cursor-pointer"
+          >
+            <Linkedin className="w-5 h-5" />
+            Connect on LinkedIn
+          </Button>
+          <Button 
+            variant="glass" 
+            size="lg" 
+            onClick={handleBookCall}
+            className="cursor-pointer"
+          >
+            <Calendar className="w-5 h-5" />
+            Book a Call
+          </Button>
+          <Button 
+            variant="success" 
+            size="lg" 
+            onClick={handleShopify}
+            className="cursor-pointer"
+          >
+            <ShoppingBag className="w-5 h-5" />
+            Checkout on Shopify
+          </Button>
         </div>
 
         {/* Stats */}
