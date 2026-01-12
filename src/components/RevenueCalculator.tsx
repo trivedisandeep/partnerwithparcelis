@@ -105,12 +105,12 @@ const RevenueCalculator = () => {
           {/* Currency Selector */}
           <div className="flex justify-end mb-6">
             <div className="flex items-center gap-2">
-              <span className="text-sm text-muted-foreground">Currency:</span>
+              <span className="text-sm text-foreground/70">Currency:</span>
               <Select value={currency} onValueChange={(val) => setCurrency(val as Currency)}>
-                <SelectTrigger className="w-[100px] h-9 bg-secondary/50 border-border">
+                <SelectTrigger className="w-[100px] h-9 bg-white/10 border-white/20 text-white">
                   <SelectValue />
                 </SelectTrigger>
-                <SelectContent className="bg-popover border-border">
+                <SelectContent className="bg-card border-white/20">
                   <SelectItem value="USD">$ USD</SelectItem>
                   <SelectItem value="EUR">€ EUR</SelectItem>
                   <SelectItem value="GBP">£ GBP</SelectItem>
@@ -124,12 +124,12 @@ const RevenueCalculator = () => {
             <div className="space-y-8">
               <div>
                 <div className="flex justify-between items-center mb-3">
-                  <label className="text-sm font-medium text-muted-foreground">Active Stores</label>
+                  <label className="text-sm font-medium text-foreground/80">Active Stores</label>
                   <Input
                     type="number"
                     value={storesInput}
                     onChange={(e) => handleStoresInputChange(e.target.value)}
-                    className="w-28 h-8 text-right text-lg font-bold text-primary bg-secondary/50 border-border"
+                    className="w-28 h-8 text-right text-lg font-bold text-white bg-white/10 border-white/20"
                     min={1}
                     max={999999}
                   />
@@ -142,17 +142,17 @@ const RevenueCalculator = () => {
                   step={1}
                   className="w-full"
                 />
-                <p className="text-xs text-muted-foreground mt-1">Slider: 1-1000 • Input: up to 999,999</p>
+                <p className="text-xs text-foreground/60 mt-1">Slider: 1-1000 • Input: up to 999,999</p>
               </div>
 
               <div>
                 <div className="flex justify-between items-center mb-3">
-                  <label className="text-sm font-medium text-muted-foreground">Orders per Store/Day</label>
+                  <label className="text-sm font-medium text-foreground/80">Orders per Store/Day</label>
                   <Input
                     type="number"
                     value={ordersInput}
                     onChange={(e) => handleOrdersInputChange(e.target.value)}
-                    className="w-28 h-8 text-right text-lg font-bold text-primary bg-secondary/50 border-border"
+                    className="w-28 h-8 text-right text-lg font-bold text-white bg-white/10 border-white/20"
                     min={1}
                     max={999999}
                   />
@@ -165,13 +165,13 @@ const RevenueCalculator = () => {
                   step={1}
                   className="w-full"
                 />
-                <p className="text-xs text-muted-foreground mt-1">Slider: 1-500 • Input: up to 999,999</p>
+                <p className="text-xs text-foreground/60 mt-1">Slider: 1-500 • Input: up to 999,999</p>
               </div>
 
               <div>
                 <div className="flex justify-between mb-3">
-                  <label className="text-sm font-medium text-muted-foreground">Customer Opt-in Rate</label>
-                  <span className="text-lg font-bold text-primary">{optInRate}%</span>
+                  <label className="text-sm font-medium text-foreground/80">Customer Opt-in Rate</label>
+                  <span className="text-lg font-bold text-white">{optInRate}%</span>
                 </div>
                 <Slider
                   value={[optInRate]}
@@ -185,8 +185,8 @@ const RevenueCalculator = () => {
 
               <div>
                 <div className="flex justify-between mb-3">
-                  <label className="text-sm font-medium text-muted-foreground">Per Insured Order*</label>
-                  <span className="text-lg font-bold text-primary">{formatCommission(commission)}</span>
+                  <label className="text-sm font-medium text-foreground/80">Per Insured Order*</label>
+                  <span className="text-lg font-bold text-white">{formatCommission(commission)}</span>
                 </div>
                 <Slider
                   value={[commission]}
@@ -196,19 +196,19 @@ const RevenueCalculator = () => {
                   step={0.01}
                   className="w-full"
                 />
-                <div className="flex justify-between text-xs text-muted-foreground mt-1">
+                <div className="flex justify-between text-xs text-foreground/60 mt-1">
                   <span>{formatCommission(0.05)}</span>
                   <span>{formatCommission(0.10)}</span>
                 </div>
-                <p className="text-xs text-muted-foreground mt-2">*Based on volumetric orders</p>
+                <p className="text-xs text-foreground/60 mt-2">*Based on volumetric orders</p>
               </div>
             </div>
 
             {/* Results */}
             <div className="flex flex-col justify-center">
-              <div className="bg-secondary/50 rounded-2xl p-8 text-center space-y-6">
+              <div className="bg-white/10 rounded-2xl p-8 text-center space-y-6 border border-white/20">
                 <div>
-                  <p className="text-sm uppercase tracking-widest text-muted-foreground mb-2">
+                  <p className="text-sm uppercase tracking-widest text-foreground/70 mb-2">
                     Estimated Monthly
                   </p>
                   <p className="text-4xl md:text-5xl font-bold text-accent transition-all duration-200">
@@ -216,19 +216,19 @@ const RevenueCalculator = () => {
                   </p>
                 </div>
 
-                <div className="h-px bg-border" />
+                <div className="h-px bg-white/20" />
 
                 <div>
-                  <p className="text-sm uppercase tracking-widest text-muted-foreground mb-2">
+                  <p className="text-sm uppercase tracking-widest text-foreground/70 mb-2">
                     Annual Revenue
                   </p>
-                  <p className="text-3xl md:text-4xl font-bold text-foreground transition-all duration-200">
+                  <p className="text-3xl md:text-4xl font-bold text-white transition-all duration-200">
                     {formatCurrency(animatedAnnual)}
                   </p>
                 </div>
               </div>
 
-              <p className="text-center text-sm text-muted-foreground mt-4">
+              <p className="text-center text-sm text-foreground/60 mt-4">
                 Based on {stores} stores × {ordersPerDay.toLocaleString()} orders/day × 30 days × {optInRate}% opt-in × {formatCommission(commission)}
               </p>
             </div>
