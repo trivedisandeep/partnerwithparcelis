@@ -45,10 +45,11 @@ const Hero = () => {
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden px-4 py-20">
-      {/* Background Effects */}
+      {/* Background - Solid brand blue with subtle pattern */}
+      <div className="absolute inset-0 hero-gradient" />
       <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/20 rounded-full blur-[120px] animate-pulse-slow" />
-        <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-accent/15 rounded-full blur-[100px] animate-pulse-slow" style={{ animationDelay: "2s" }} />
+        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-white/5 rounded-full blur-[120px]" />
+        <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-white/5 rounded-full blur-[100px]" style={{ animationDelay: "2s" }} />
       </div>
 
       <div className="container relative z-10 max-w-5xl mx-auto text-center">
@@ -58,30 +59,30 @@ const Hero = () => {
         </div>
 
         <div className="animate-fade-up">
-          <span className="inline-block px-4 py-2 mb-6 text-sm font-semibold tracking-widest uppercase text-primary bg-primary/10 rounded-full border border-primary/20">
+          <span className="inline-block px-4 py-2 mb-6 text-sm font-semibold tracking-widest uppercase text-white/90 bg-white/10 rounded-full border border-white/20">
             Partner Program
           </span>
         </div>
 
-        <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight animate-fade-up" style={{ animationDelay: "0.1s" }}>
+        <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight animate-fade-up text-white" style={{ animationDelay: "0.1s" }}>
           Post-Purchase Monetization for{" "}
-          <span className="text-gradient">Shopify Experts</span>
+          <span className="text-white">Shopify Experts</span>
         </h1>
 
-        <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto mb-10 leading-relaxed animate-fade-up" style={{ animationDelay: "0.2s" }}>
+        <p className="text-lg md:text-xl text-white/80 max-w-3xl mx-auto mb-10 leading-relaxed animate-fade-up" style={{ animationDelay: "0.2s" }}>
           Generate consistent, zero-maintenance recurring revenue from your existing client base 
           by adding a trust layer to their checkout. Earn $0.05-0.08 per insured order.
         </p>
 
         {/* Pain Points Section */}
         <div className="mb-12 animate-fade-up" style={{ animationDelay: "0.25s" }}>
-          <h3 className="text-lg font-semibold text-foreground/80 mb-6">Pain Points We Solve</h3>
+          <h3 className="text-lg font-semibold text-white/80 mb-6">Pain Points We Solve</h3>
           <div className="grid md:grid-cols-3 gap-4">
             {painPoints.map((point, i) => (
-              <div key={i} className="glass-card p-5 text-left border-destructive/20 hover:border-destructive/40 transition-colors">
-                <point.icon className="w-6 h-6 text-destructive mb-3" />
-                <h4 className="font-semibold text-foreground mb-2">{point.title}</h4>
-                <p className="text-sm text-muted-foreground">{point.description}</p>
+              <div key={i} className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl p-5 text-left hover:bg-white/15 transition-colors">
+                <point.icon className="w-6 h-6 text-amber-400 mb-3" />
+                <h4 className="font-semibold text-white mb-2">{point.title}</h4>
+                <p className="text-sm text-white/70">{point.description}</p>
               </div>
             ))}
           </div>
@@ -89,12 +90,12 @@ const Hero = () => {
 
         {/* USP Section */}
         <div className="mb-12 animate-fade-up" style={{ animationDelay: "0.3s" }}>
-          <h3 className="text-lg font-semibold text-foreground/80 mb-6">Why Parcelis?</h3>
+          <h3 className="text-lg font-semibold text-white/80 mb-6">Why Parcelis?</h3>
           <div className="flex flex-wrap justify-center gap-3">
             {usps.map((usp, i) => (
-              <div key={i} className="flex items-center gap-2 px-4 py-2 bg-primary/10 rounded-full border border-primary/20">
-                <usp.icon className="w-4 h-4 text-primary" />
-                <span className="text-sm text-foreground">{usp.text}</span>
+              <div key={i} className="flex items-center gap-2 px-4 py-2 bg-white/10 rounded-full border border-white/20">
+                <usp.icon className="w-4 h-4 text-white" />
+                <span className="text-sm text-white">{usp.text}</span>
               </div>
             ))}
           </div>
@@ -112,7 +113,7 @@ const Hero = () => {
             Connect on LinkedIn
           </Button>
           <Button 
-            variant="glass" 
+            variant="outline" 
             size="lg" 
             onClick={handleBookCall}
             className="cursor-pointer"
@@ -121,7 +122,7 @@ const Hero = () => {
             Book a Call
           </Button>
           <Button 
-            variant="success" 
+            variant="outline" 
             size="lg" 
             onClick={handleShopify}
             className="cursor-pointer"
@@ -139,9 +140,9 @@ const Hero = () => {
             { value: "3 Min", label: "Setup Time" },
             { value: "0", label: "Maintenance Required" },
           ].map((stat, i) => (
-            <div key={i} className="bg-card/90 backdrop-blur-xl border-2 border-border/50 rounded-2xl p-6 text-center shadow-lg">
-              <div className="text-2xl md:text-3xl font-bold text-primary mb-1">{stat.value}</div>
-              <div className="text-sm text-foreground/70">{stat.label}</div>
+            <div key={i} className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl p-6 text-center">
+              <div className="text-2xl md:text-3xl font-bold text-white mb-1">{stat.value}</div>
+              <div className="text-sm text-white/70">{stat.label}</div>
             </div>
           ))}
         </div>

@@ -158,13 +158,13 @@ const ReferralForm = () => {
         <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-start">
           {/* Left Side - Info */}
           <div className="lg:sticky lg:top-8">
-            <div className="inline-flex items-center gap-2 px-4 py-2 mb-6 text-sm font-semibold text-accent bg-accent/10 rounded-full border border-accent/20">
+            <div className="inline-flex items-center gap-2 px-4 py-2 mb-6 text-sm font-semibold text-accent bg-accent/20 rounded-full border border-accent/30">
               <Gift className="w-4 h-4" />
               Earn $50 Per Referral
             </div>
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 text-foreground">
               Know Someone Who Fits?<br />
-              <span className="text-gradient">Refer & Earn</span>
+              <span className="text-foreground">Refer & Earn</span>
             </h2>
             <p className="text-base lg:text-lg text-muted-foreground mb-8 leading-relaxed">
               Refer someone who enrolls stores with at least 1,000 insured orders per month and 

@@ -39,23 +39,23 @@ const CaseStudy = () => {
             </div>
 
             {/* Right Side */}
-            <div className="hero-gradient p-10 md:p-14 flex flex-col justify-center text-primary-foreground">
+            <div className="bg-primary p-10 md:p-14 flex flex-col justify-center text-white">
               <h3 className="text-2xl font-bold mb-6">Ideal Partner Profile</h3>
-              <ul className="space-y-4 text-primary-foreground/90">
+              <ul className="space-y-4 text-white/90">
                 <li className="flex items-start gap-3">
-                  <div className="w-2 h-2 rounded-full bg-primary-foreground/60 mt-2 shrink-0" />
+                  <div className="w-2 h-2 rounded-full bg-white/60 mt-2 shrink-0" />
                   <span>Target clients doing <strong>500+ orders/month</strong></span>
                 </li>
                 <li className="flex items-start gap-3">
-                  <div className="w-2 h-2 rounded-full bg-primary-foreground/60 mt-2 shrink-0" />
+                  <div className="w-2 h-2 rounded-full bg-white/60 mt-2 shrink-0" />
                   <span>High AOV categories: <strong>Home, Electronics, Fashion</strong></span>
                 </li>
                 <li className="flex items-start gap-3">
-                  <div className="w-2 h-2 rounded-full bg-primary-foreground/60 mt-2 shrink-0" />
+                  <div className="w-2 h-2 rounded-full bg-white/60 mt-2 shrink-0" />
                   <span>Perfect for <strong>Pan-India or International</strong> shipping</span>
                 </li>
                 <li className="flex items-start gap-3">
-                  <div className="w-2 h-2 rounded-full bg-primary-foreground/60 mt-2 shrink-0" />
+                  <div className="w-2 h-2 rounded-full bg-white/60 mt-2 shrink-0" />
                   <span><strong>100% free</strong> for the merchant, customers pay</span>
                 </li>
               </ul>
