@@ -61,14 +61,14 @@ const Testimonials = () => {
   return (
     <section className="py-24 px-4 relative overflow-hidden">
       <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-accent/5 rounded-full blur-[120px]" />
-        <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-primary/5 rounded-full blur-[100px]" />
+        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-primary/20 rounded-full blur-[120px]" />
+        <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-primary/10 rounded-full blur-[100px]" />
       </div>
 
       <div className="container max-w-6xl mx-auto relative z-10">
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-5xl font-bold mb-4">
-            Partner <span className="text-gradient">Success Stories</span>
+          <h2 className="text-3xl md:text-5xl font-bold mb-4 text-foreground">
+            Partner <span className="text-foreground">Success Stories</span>
           </h2>
           <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
             Hear from agencies already earning with the Parcelis Partner Program

@@ -93,8 +93,8 @@ const RevenueCalculator = () => {
 
       <div className="container max-w-4xl mx-auto relative z-10">
         <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-5xl font-bold mb-4">
-            Calculate Your <span className="text-gradient">Revenue</span>
+          <h2 className="text-3xl md:text-5xl font-bold mb-4 text-foreground">
+            Calculate Your <span className="text-foreground">Revenue</span>
           </h2>
           <p className="text-muted-foreground text-lg">
             See how much you could earn with the Parcelis Partner Program

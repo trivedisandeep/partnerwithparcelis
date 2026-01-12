@@ -6,52 +6,52 @@
 
 @layer base {
   :root {
-    --background: 240 60% 8%;
-    --foreground: 0 0% 98%;
+    --background: 235 85% 18%;
+    --foreground: 0 0% 100%;
 
-    --card: 240 50% 12%;
-    --card-foreground: 0 0% 98%;
+    --card: 235 80% 22%;
+    --card-foreground: 0 0% 100%;
 
-    --popover: 240 50% 12%;
-    --popover-foreground: 0 0% 98%;
+    --popover: 235 80% 22%;
+    --popover-foreground: 0 0% 100%;
 
-    --primary: 243 100% 65%;
+    --primary: 235 85% 45%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 240 40% 18%;
-    --secondary-foreground: 0 0% 98%;
+    --secondary: 235 70% 28%;
+    --secondary-foreground: 0 0% 100%;
 
-    --muted: 240 30% 20%;
-    --muted-foreground: 220 15% 70%;
+    --muted: 235 60% 32%;
+    --muted-foreground: 230 30% 75%;
 
-    --accent: 160 84% 45%;
-    --accent-foreground: 0 0% 100%;
+    --accent: 45 100% 55%;
+    --accent-foreground: 235 85% 18%;
 
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 98%;
 
-    --border: 240 25% 30%;
-    --input: 240 30% 18%;
-    --ring: 243 100% 65%;
+    --border: 235 50% 35%;
+    --input: 235 60% 25%;
+    --ring: 235 85% 50%;
 
-    --radius: 0.75rem;
+    --radius: 0.5rem;
 
-    /* Custom tokens */
-    --gradient-hero: linear-gradient(135deg, hsl(243, 100%, 60%) 0%, hsl(270, 100%, 65%) 100%);
-    --gradient-card: linear-gradient(180deg, hsl(240, 50%, 18%) 0%, hsl(240, 50%, 14%) 100%);
+    /* Custom tokens - Parcelis brand */
+    --gradient-hero: linear-gradient(135deg, hsl(235, 85%, 35%) 0%, hsl(235, 85%, 20%) 100%);
+    --gradient-card: linear-gradient(180deg, hsl(235, 80%, 26%) 0%, hsl(235, 80%, 20%) 100%);
     --gradient-success: linear-gradient(135deg, hsl(142, 76%, 45%) 0%, hsl(142, 70%, 55%) 100%);
-    --shadow-glow: 0 0 60px hsl(243 100% 60% / 0.3);
-    --shadow-card: 0 20px 40px hsl(0 0% 0% / 0.3);
+    --shadow-glow: 0 0 60px hsl(235 85% 50% / 0.25);
+    --shadow-card: 0 20px 40px hsl(235 85% 10% / 0.4);
     --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
-    --sidebar-background: 240 50% 8%;
-    --sidebar-foreground: 0 0% 98%;
-    --sidebar-primary: 243 100% 65%;
+    --sidebar-background: 235 85% 15%;
+    --sidebar-foreground: 0 0% 100%;
+    --sidebar-primary: 235 85% 45%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 40% 16%;
-    --sidebar-accent-foreground: 0 0% 98%;
-    --sidebar-border: 240 25% 25%;
-    --sidebar-ring: 243 100% 65%;
+    --sidebar-accent: 235 70% 25%;
+    --sidebar-accent-foreground: 0 0% 100%;
+    --sidebar-border: 235 50% 30%;
+    --sidebar-ring: 235 85% 50%;
   }
 }
 
@@ -72,12 +72,12 @@
 
 @layer components {
   .glass-card {
-    @apply bg-card/80 backdrop-blur-xl border border-border rounded-2xl;
+    @apply bg-card/90 backdrop-blur-xl border border-white/10 rounded-xl;
     box-shadow: var(--shadow-card);
   }
 
   .hero-gradient {
-    background: var(--gradient-hero);
+    background: linear-gradient(135deg, hsl(235, 85%, 38%) 0%, hsl(235, 85%, 28%) 100%);
   }
 
   .success-gradient {
@@ -89,7 +89,7 @@
   }
 
   .text-gradient {
-    background: linear-gradient(135deg, hsl(243, 100%, 70%) 0%, hsl(280, 100%, 75%) 100%);
+    background: linear-gradient(135deg, hsl(0, 0%, 100%) 0%, hsl(230, 30%, 85%) 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
