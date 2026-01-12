@@ -1,7 +1,8 @@
+import { Suspense } from "react";
 import { Button } from "@/components/ui/button";
 import { Linkedin, Calendar, ShoppingBag, Package, ShieldCheck, Clock, Users, AlertTriangle } from "lucide-react";
 import parcelisLogo from "@/assets/parcelis-logo.png";
-
+import FloatingCube from "./FloatingCube";
 const Hero = () => {
   const handleLinkedIn = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -49,8 +50,13 @@ const Hero = () => {
       <div className="absolute inset-0 hero-gradient" />
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-white/5 rounded-full blur-[120px]" />
-        <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-white/5 rounded-full blur-[100px]" style={{ animationDelay: "2s" }} />
+        <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-white/5 rounded-full blur-[100px]" />
       </div>
+      
+      {/* 3D Floating Cubes */}
+      <Suspense fallback={null}>
+        <FloatingCube />
+      </Suspense>
 
       <div className="container relative z-10 max-w-5xl mx-auto text-center">
         {/* Logo */}
