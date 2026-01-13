@@ -7,18 +7,20 @@ import { Gift, Send, CheckCircle } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { z } from "zod";
 import HCaptcha from "@hcaptcha/react-hcaptcha";
+import { PhoneInput } from "@/components/ui/phone-input";
+import { useUserCountry } from "@/hooks/useUserCountry";
 
 // hCaptcha site key - this is the public key (safe for client-side)
 const HCAPTCHA_SITE_KEY = "ceeece62-41f4-4650-9962-0f78dc64ce2e";
 
-// Validation schema
+// Validation schema - updated for international phone format
 const referralSchema = z.object({
   referrerName: z.string().min(2, "Name must be at least 2 characters").max(100, "Name must be less than 100 characters"),
   referrerEmail: z.string().email("Please enter a valid email address").max(255, "Email must be less than 255 characters"),
-  referrerPhone: z.string().regex(/^$|^\+?[1-9]\d{1,14}$/, "Please enter a valid phone number").optional().or(z.literal('')),
+  referrerPhone: z.string().refine((val) => val === '' || val.length >= 8, "Please enter a valid phone number").optional().or(z.literal('')),
   referralName: z.string().min(2, "Name must be at least 2 characters").max(100, "Name must be less than 100 characters"),
   referralEmail: z.string().email("Please enter a valid email address").max(255, "Email must be less than 255 characters"),
-  referralPhone: z.string().regex(/^\+?[1-9]\d{1,14}$/, "Please enter a valid phone number"),
+  referralPhone: z.string().min(8, "Please enter a valid phone number"),
   referralLinkedin: z.string()
     .refine((val) => val === '' || (val.startsWith('http') && val.includes('linkedin.com')), {
       message: "Please enter a valid LinkedIn URL"
@@ -28,6 +30,8 @@ const referralSchema = z.object({
 });
 
 const ReferralForm = () => {
+  const { country } = useUserCountry();
+  
   const [formData, setFormData] = useState({
     referrerName: "",
     referrerEmail: "",
@@ -45,6 +49,13 @@ const ReferralForm = () => {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+    if (errors[name]) {
+      setErrors({ ...errors, [name]: "" });
+    }
+  };
+
+  const handlePhoneChange = (name: string, value: string) => {
     setFormData({ ...formData, [name]: value });
     if (errors[name]) {
       setErrors({ ...errors, [name]: "" });
@@ -226,14 +237,12 @@ const ReferralForm = () => {
 
                   <div className="space-y-2">
                     <Label htmlFor="referrerPhone" className="text-foreground/90">Your Phone Number</Label>
-                    <Input
-                      id="referrerPhone"
-                      name="referrerPhone"
-                      type="tel"
-                      placeholder="+91 XXXXX XXXXX"
+                    <PhoneInput
                       value={formData.referrerPhone}
-                      onChange={handleChange}
-                      className={`h-11 bg-secondary/50 border-border text-foreground placeholder:text-muted-foreground ${errors.referrerPhone ? 'border-destructive' : ''}`}
+                      onChange={(phone) => handlePhoneChange('referrerPhone', phone)}
+                      defaultCountry={country}
+                      hasError={!!errors.referrerPhone}
+                      placeholder="Enter phone number"
                     />
                     {errors.referrerPhone && <p className="text-sm text-destructive">{errors.referrerPhone}</p>}
                   </div>
@@ -275,15 +284,12 @@ const ReferralForm = () => {
 
                   <div className="space-y-2">
                     <Label htmlFor="referralPhone" className="text-foreground/90">Referral's Phone Number *</Label>
-                    <Input
-                      id="referralPhone"
-                      name="referralPhone"
-                      type="tel"
-                      placeholder="+91 XXXXX XXXXX"
+                    <PhoneInput
                       value={formData.referralPhone}
-                      onChange={handleChange}
-                      required
-                      className={`h-11 bg-secondary/50 border-border text-foreground placeholder:text-muted-foreground ${errors.referralPhone ? 'border-destructive' : ''}`}
+                      onChange={(phone) => handlePhoneChange('referralPhone', phone)}
+                      defaultCountry={country}
+                      hasError={!!errors.referralPhone}
+                      placeholder="Enter phone number"
                     />
                     {errors.referralPhone && <p className="text-sm text-destructive">{errors.referralPhone}</p>}
                   </div>

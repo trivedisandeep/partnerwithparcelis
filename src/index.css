@@ -119,3 +119,38 @@
   from { opacity: 0; transform: translateY(20px); }
   to { opacity: 1; transform: translateY(0); }
 }
+
+/* Phone Input Styles */
+.phone-input-container {
+  @apply flex w-full;
+}
+
+.phone-input-container .react-international-phone-input-container {
+  @apply w-full;
+}
+
+.phone-input-container .react-international-phone-input {
+  @apply flex-1 h-11 bg-secondary/50 border border-border text-foreground placeholder:text-muted-foreground rounded-r-md px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent;
+  font-family: 'DM Sans', -apple-system, system-ui, sans-serif;
+}
+
+.phone-input-container .react-international-phone-country-selector-button {
+  @apply h-11 bg-secondary/50 border border-border border-r-0 rounded-l-md px-3 hover:bg-secondary/70 transition-colors;
+}
+
+.phone-input-container .react-international-phone-country-selector-dropdown {
+  @apply bg-card border border-border rounded-lg shadow-xl mt-1 max-h-60 overflow-y-auto z-50;
+}
+
+.phone-input-container .react-international-phone-country-selector-dropdown__list-item {
+  @apply px-3 py-2 hover:bg-secondary/50 cursor-pointer text-foreground text-sm;
+}
+
+.phone-input-container .react-international-phone-country-selector-dropdown__list-item--focused {
+  @apply bg-primary/20;
+}
+
+.phone-input-error .react-international-phone-input,
+.phone-input-error .react-international-phone-country-selector-button {
+  @apply border-destructive;
+}
