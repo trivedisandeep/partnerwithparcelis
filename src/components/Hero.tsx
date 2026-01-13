@@ -97,11 +97,11 @@ const Hero = () => {
         {/* USP Section */}
         <div className="mb-12 animate-fade-up" style={{ animationDelay: "0.3s" }}>
           <h3 className="text-lg font-semibold text-white/80 mb-6">Why Parcelis?</h3>
-          <div className="flex flex-wrap justify-center gap-3">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {usps.map((usp, i) => (
-              <div key={i} className="flex items-center gap-2 px-4 py-2 bg-white/10 rounded-full border border-white/20">
-                <usp.icon className="w-4 h-4 text-white" />
-                <span className="text-sm text-white">{usp.text}</span>
+              <div key={i} className="flex flex-col items-center gap-3 px-4 py-5 bg-white rounded-xl shadow-lg hover:shadow-xl transition-shadow">
+                <usp.icon className="w-8 h-8 text-primary" />
+                <span className="text-sm font-medium text-primary text-center">{usp.text}</span>
               </div>
             ))}
           </div>
