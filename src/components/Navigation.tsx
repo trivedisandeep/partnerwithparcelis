@@ -65,7 +65,7 @@ const Navigation = () => {
             <Button
               variant="hero"
               size="sm"
-              onClick={() => scrollToSection("referral")}
+              onClick={() => window.location.href = "https://www.myparcelis.com/apply"}
               className="hidden sm:flex"
             >
               Partner With Us
@@ -101,7 +101,7 @@ const Navigation = () => {
             <Button
               variant="hero"
               className="mt-4"
-              onClick={() => scrollToSection("referral")}
+              onClick={() => window.location.href = "https://www.myparcelis.com/apply"}
             >
               Partner With Us
             </Button>
