@@ -16,8 +16,8 @@ const steps = [
   {
     icon: Wallet,
     title: "You Earn Commission",
-    description: "Earn $0.05-0.08 per insured order automatically",
-    highlight: "$0.05-0.08/order",
+    description: "Earn $0.05-0.10 per insured order automatically",
+    highlight: "$0.05-0.10/order",
   },
   {
     icon: HeadphonesIcon,
