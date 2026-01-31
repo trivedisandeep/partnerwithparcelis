@@ -12,27 +12,27 @@ const CaseStudy = () => {
                 Agency Success Story
               </span>
               <h2 className="text-3xl md:text-4xl font-bold mb-4">
-                $40,000 Monthly Revenue
+                $4,800 Monthly Revenue
               </h2>
               <p className="text-muted-foreground text-lg mb-8">
-                US-based eCommerce agency implemented Parcelis across 23 stores. 
-                Total setup time: ~90 minutes.
+                US-based eCommerce agency implemented Parcelis across 8 stores. 
+                Total setup time: ~60 minutes.
               </p>
 
               <div className="grid grid-cols-3 gap-4">
                 <div className="text-center">
                   <Store className="w-6 h-6 mx-auto mb-2 text-primary" />
-                  <div className="text-2xl font-bold">23</div>
+                  <div className="text-2xl font-bold">8</div>
                   <div className="text-xs text-muted-foreground">Stores</div>
                 </div>
                 <div className="text-center">
                   <Clock className="w-6 h-6 mx-auto mb-2 text-primary" />
-                  <div className="text-2xl font-bold">90</div>
+                  <div className="text-2xl font-bold">60</div>
                   <div className="text-xs text-muted-foreground">Minutes Setup</div>
                 </div>
                 <div className="text-center">
                   <TrendingUp className="w-6 h-6 mx-auto mb-2 text-accent" />
-                  <div className="text-2xl font-bold">$480K</div>
+                  <div className="text-2xl font-bold">$57.6K</div>
                   <div className="text-xs text-muted-foreground">Annual ARR</div>
                 </div>
               </div>
