@@ -44,19 +44,19 @@ const CaseStudy = () => {
               <ul className="space-y-4 text-white/90">
                 <li className="flex items-start gap-3">
                   <div className="w-2 h-2 rounded-full bg-white/60 mt-2 shrink-0" />
-                  <span>Target clients doing <strong>500+ orders/month</strong></span>
+                  <span>Agencies with clients in <strong>international markets</strong> or cross-border trade from India</span>
                 </li>
                 <li className="flex items-start gap-3">
                   <div className="w-2 h-2 rounded-full bg-white/60 mt-2 shrink-0" />
-                  <span>High AOV categories: <strong>Home, Electronics, Fashion</strong></span>
+                  <span>Target clients with <strong>sizeable order volume</strong> for maximum benefit</span>
                 </li>
                 <li className="flex items-start gap-3">
                   <div className="w-2 h-2 rounded-full bg-white/60 mt-2 shrink-0" />
-                  <span>Perfect for <strong>Pan-India or International</strong> shipping</span>
+                  <span><strong>Buyer-driven model</strong> — zero subscription cost for merchants</span>
                 </li>
                 <li className="flex items-start gap-3">
                   <div className="w-2 h-2 rounded-full bg-white/60 mt-2 shrink-0" />
-                  <span><strong>100% free</strong> for the merchant, customers pay</span>
+                  <span>Works across <strong>all product categories</strong></span>
                 </li>
               </ul>
             </div>
