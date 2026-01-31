@@ -12,7 +12,7 @@ const CaseStudy = () => {
                 Agency Success Story
               </span>
               <h2 className="text-3xl md:text-4xl font-bold mb-4">
-                $1,880 Monthly Revenue
+                $40,000 Monthly Revenue
               </h2>
               <p className="text-muted-foreground text-lg mb-8">
                 US-based eCommerce agency implemented Parcelis across 23 stores. 
@@ -32,7 +32,7 @@ const CaseStudy = () => {
                 </div>
                 <div className="text-center">
                   <TrendingUp className="w-6 h-6 mx-auto mb-2 text-accent" />
-                  <div className="text-2xl font-bold">$22.5K</div>
+                  <div className="text-2xl font-bold">$480K</div>
                   <div className="text-xs text-muted-foreground">Annual ARR</div>
                 </div>
               </div>
